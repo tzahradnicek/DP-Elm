@@ -1,0 +1,7 @@
+ Browser.element
+    -- {
+    --     init = \() -> initialModel  
+    --     ,view = view
+    --     ,update = update
+    --     , subscriptions = subscriptions
+    -- }

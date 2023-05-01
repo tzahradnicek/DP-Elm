@@ -1,0 +1,93 @@
+.header {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+}
+
+.header h1 {
+    font-style: italic;
+}
+
+.pic {
+    width: 900px;
+    height: 500px;
+}
+  
+.rightArrow {
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    background: none;
+}
+
+.leftArrow {
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    width: 20px;
+    height: 20px;
+    background: none;
+    cursor: pointer;
+}
+
+.relative {
+    position: relative;
+}
+
+.centerLeft {
+    position: absolute;
+    top: 50%;
+    left: 16px;
+    text-align: center;
+}
+
+.centerRight {
+    position: absolute;
+    top: 50%;
+    left: 866px;
+    text-align: center;
+}
+
+.left {
+    position: relative;
+    left: 150px;
+    max-width: fit-content;
+    overflow: hidden;
+}
+
+.right {
+    position: relative;
+    left: 850px;
+    max-width: fit-content;
+    overflow: hidden;
+}
+
+.center {
+    position: relative;
+    left: 450px;
+    max-width: fit-content;
+    overflow: hidden;
+}
+
+.border {
+    border: solid black;
+    border-width: 3px;
+}
+
+.zoomable {
+    transition: transform 0.5s ease; /* adds a smooth transition effect */
+    display: block;
+}
+
+.zoomable:hover {
+    transform: scale(1.2); /* increases the size of the image by 20% on hover */
+}
