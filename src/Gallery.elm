@@ -10,6 +10,7 @@ import Files exposing(pics, pics2, pics3)
 type alias Model = 
     {
         nums: Dict String Int
+        ,count: Int
     }
 
 type Msg = Prev (Dict Int String) | Next (Dict Int String) | Tick Time.Posix

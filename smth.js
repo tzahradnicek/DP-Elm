@@ -5339,8 +5339,11 @@ var $author$project$Main$nums = $elm$core$Dict$fromList(
 		]));
 var $author$project$Main$initialModel = function (_v0) {
 	return _Utils_Tuple2(
-		{nums: $author$project$Main$nums},
+		{count: 1, nums: $author$project$Main$nums},
 		$elm$core$Platform$Cmd$none);
+};
+var $author$project$Main$GalleryMessage = function (a) {
+	return {$: 'GalleryMessage', a: a};
 };
 var $author$project$Gallery$Tick = function (a) {
 	return {$: 'Tick', a: a};
@@ -5649,8 +5652,12 @@ var $elm$time$Time$every = F2(
 		return $elm$time$Time$subscription(
 			A2($elm$time$Time$Every, interval, tagger));
 	});
+var $elm$core$Platform$Sub$map = _Platform_map;
 var $author$project$Main$subscriptions = function (model) {
-	return A2($elm$time$Time$every, 5000, $author$project$Gallery$Tick);
+	return A2(
+		$elm$core$Platform$Sub$map,
+		$author$project$Main$GalleryMessage,
+		A2($elm$time$Time$every, 1000, $author$project$Gallery$Tick));
 };
 var $elm$core$Dict$sizeHelp = F2(
 	function (n, dict) {
@@ -6227,6 +6234,44 @@ var $author$project$Gallery$update = F2(
 					$elm$core$Platform$Cmd$none);
 		}
 	});
+var $elm$core$Platform$Cmd$map = _Platform_map;
+var $author$project$Main$updateWith = F3(
+	function (toMsg, model, _v0) {
+		var subModel = _v0.a;
+		var subCmd = _v0.b;
+		return _Utils_Tuple2(
+			_Utils_update(
+				model,
+				{nums: subModel.nums}),
+			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
+	});
+var $author$project$Main$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'GalleryMessage':
+				var message = msg.a;
+				return A3(
+					$author$project$Main$updateWith,
+					$author$project$Main$GalleryMessage,
+					model,
+					A2($author$project$Gallery$update, message, model));
+			case 'Plus':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{count: model.count + 1}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{count: model.count - 1}),
+					$elm$core$Platform$Cmd$none);
+		}
+	});
+var $author$project$Main$Minus = {$: 'Minus'};
+var $author$project$Main$Plus = {$: 'Plus'};
+var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -6243,7 +6288,6 @@ var $author$project$Gallery$Next = function (a) {
 var $author$project$Gallery$Prev = function (a) {
 	return {$: 'Prev', a: a};
 };
-var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$img = _VirtualDom_node('img');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
@@ -6340,8 +6384,11 @@ var $author$project$Gallery$galleryView = F4(
 				]));
 	});
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
+var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
+var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $elm$core$Debug$toString = _Debug_toString;
 var $author$project$Main$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
@@ -6364,33 +6411,64 @@ var $author$project$Main$view = function (model) {
 								$elm$html$Html$text('Testing')
 							]))
 					])),
+				A2(
+				$elm$html$Html$map,
+				$author$project$Main$GalleryMessage,
 				A4(
-				$author$project$Gallery$galleryView,
-				model,
-				$author$project$Files$pics,
-				_List_fromArray(
-					['left', 'border']),
-				_List_fromArray(
-					['pic', 'zoomable'])),
+					$author$project$Gallery$galleryView,
+					model,
+					$author$project$Files$pics,
+					_List_fromArray(
+						['left', 'border']),
+					_List_fromArray(
+						['pic', 'zoomable']))),
+				A2(
+				$elm$html$Html$map,
+				$author$project$Main$GalleryMessage,
 				A4(
-				$author$project$Gallery$galleryView,
-				model,
-				$author$project$Files$pics2,
-				_List_fromArray(
-					['center']),
-				_List_fromArray(
-					['pic'])),
+					$author$project$Gallery$galleryView,
+					model,
+					$author$project$Files$pics2,
+					_List_fromArray(
+						['center']),
+					_List_fromArray(
+						['pic']))),
+				A2(
+				$elm$html$Html$map,
+				$author$project$Main$GalleryMessage,
 				A4(
-				$author$project$Gallery$galleryView,
-				model,
-				$author$project$Files$pics3,
+					$author$project$Gallery$galleryView,
+					model,
+					$author$project$Files$pics3,
+					_List_fromArray(
+						['right']),
+					_List_fromArray(
+						['header', 'pic']))),
+				$elm$html$Html$text(
+				$elm$core$Debug$toString(model.count)),
+				A2(
+				$elm$html$Html$button,
 				_List_fromArray(
-					['right']),
+					[
+						$elm$html$Html$Events$onClick($author$project$Main$Plus)
+					]),
 				_List_fromArray(
-					['header', 'pic']))
+					[
+						$elm$html$Html$text('+')
+					])),
+				A2(
+				$elm$html$Html$button,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onClick($author$project$Main$Minus)
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('-')
+					]))
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
-	{init: $author$project$Main$initialModel, subscriptions: $author$project$Main$subscriptions, update: $author$project$Gallery$update, view: $author$project$Main$view});
+	{init: $author$project$Main$initialModel, subscriptions: $author$project$Main$subscriptions, update: $author$project$Main$update, view: $author$project$Main$view});
 _Platform_export({'Main':{'init':$author$project$Main$main(
 	$elm$json$Json$Decode$succeed(_Utils_Tuple0))(0)}});}(this));
