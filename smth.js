@@ -5698,7 +5698,7 @@ var $author$project$Gallery$getModelNum = F2(
 					return 'text';
 				}
 			}(),
-			model.nums);
+			model);
 		if (_v0.$ === 'Just') {
 			var smth = _v0.a;
 			return smth;
@@ -6146,61 +6146,45 @@ var $author$project$Gallery$update = F2(
 				return (_Utils_cmp(
 					modelNum,
 					$author$project$Gallery$dictSize(dict)) > 0) ? _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							nums: A3(
-								$elm$core$Dict$update,
-								picKey,
-								function (value) {
-									return $elm$core$Maybe$Just(1);
-								},
-								model.nums)
-						}),
+					A3(
+						$elm$core$Dict$update,
+						picKey,
+						function (value) {
+							return $elm$core$Maybe$Just(1);
+						},
+						model),
 					$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							nums: A3(
-								$elm$core$Dict$update,
-								picKey,
-								$elm$core$Maybe$map(
-									function (value) {
-										return value + 1;
-									}),
-								model.nums)
-						}),
+					A3(
+						$elm$core$Dict$update,
+						picKey,
+						$elm$core$Maybe$map(
+							function (value) {
+								return value + 1;
+							}),
+						model),
 					$elm$core$Platform$Cmd$none);
 			case 'Prev':
 				var dict = msg.a;
 				var picKey = $author$project$Gallery$getPicKey(dict);
 				var modelNum = A2($author$project$Gallery$getModelNum, dict, model);
 				return (modelNum === 1) ? _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							nums: A3(
-								$elm$core$Dict$update,
-								picKey,
-								function (value) {
-									return $elm$core$Maybe$Just(
-										$elm$core$Dict$size(dict) - 1);
-								},
-								model.nums)
-						}),
+					A3(
+						$elm$core$Dict$update,
+						picKey,
+						function (value) {
+							return $elm$core$Maybe$Just(
+								$elm$core$Dict$size(dict) - 1);
+						},
+						model),
 					$elm$core$Platform$Cmd$none) : _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							nums: A3(
-								$elm$core$Dict$update,
-								picKey,
-								$elm$core$Maybe$map(
-									function (value) {
-										return value - 1;
-									}),
-								model.nums)
-						}),
+					A3(
+						$elm$core$Dict$update,
+						picKey,
+						$elm$core$Maybe$map(
+							function (value) {
+								return value - 1;
+							}),
+						model),
 					$elm$core$Platform$Cmd$none);
 			default:
 				var time = msg.a;
@@ -6226,11 +6210,7 @@ var $author$project$Gallery$update = F2(
 						return A3($elm$core$List$foldl, updateKey, dict, keys);
 					});
 				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{
-							nums: A2(updateKeys, $author$project$Gallery$keysToUpdate, model.nums)
-						}),
+					A2(updateKeys, $author$project$Gallery$keysToUpdate, model),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
@@ -6242,7 +6222,7 @@ var $author$project$Main$updateWith = F3(
 		return _Utils_Tuple2(
 			_Utils_update(
 				model,
-				{nums: subModel.nums}),
+				{nums: subModel}),
 			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
 	});
 var $author$project$Main$update = F2(
@@ -6254,7 +6234,7 @@ var $author$project$Main$update = F2(
 					$author$project$Main$updateWith,
 					$author$project$Main$GalleryMessage,
 					model,
-					A2($author$project$Gallery$update, message, model));
+					A2($author$project$Gallery$update, message, model.nums));
 			case 'Plus':
 				return _Utils_Tuple2(
 					_Utils_update(
@@ -6343,7 +6323,7 @@ var $author$project$Gallery$galleryView = F4(
 													return 'text';
 												}
 											}(),
-											model.nums);
+											model);
 										if (_v1.$ === 'Just') {
 											var smth = _v1.a;
 											return smth;
@@ -6416,7 +6396,7 @@ var $author$project$Main$view = function (model) {
 				$author$project$Main$GalleryMessage,
 				A4(
 					$author$project$Gallery$galleryView,
-					model,
+					model.nums,
 					$author$project$Files$pics,
 					_List_fromArray(
 						['left', 'border']),
@@ -6427,7 +6407,7 @@ var $author$project$Main$view = function (model) {
 				$author$project$Main$GalleryMessage,
 				A4(
 					$author$project$Gallery$galleryView,
-					model,
+					model.nums,
 					$author$project$Files$pics2,
 					_List_fromArray(
 						['center']),
@@ -6438,7 +6418,7 @@ var $author$project$Main$view = function (model) {
 				$author$project$Main$GalleryMessage,
 				A4(
 					$author$project$Gallery$galleryView,
-					model,
+					model.nums,
 					$author$project$Files$pics3,
 					_List_fromArray(
 						['right']),

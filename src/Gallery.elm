@@ -8,10 +8,7 @@ import Time
 import Files exposing(pics, pics2, pics3)
 
 type alias Model = 
-    {
-        nums: Dict String Int
-        ,count: Int
-    }
+    Dict String Int
 
 type Msg = Prev (Dict Int String) | Next (Dict Int String) | Tick Time.Posix
 
@@ -20,7 +17,7 @@ getModelNum pics model =
     (case Dict.get 
         (case Dict.get 0 pics of
             Just value -> value
-            Nothing -> "text") model.nums of 
+            Nothing -> "text") model of 
                 Just smth -> smth
                 Nothing -> -1)
 
@@ -47,18 +44,18 @@ update msg model =
             picKey = getPicKey dict
         in 
         if modelNum > dictSize dict then
-            ({ model | nums = Dict.update picKey (\value -> Just 1) model.nums}, Cmd.none)
+            ( Dict.update picKey (\value -> Just 1) model, Cmd.none)
         else 
-            ({ model | nums = Dict.update picKey (Maybe.map (\value -> value + 1)) model.nums}, Cmd.none)
+            ( Dict.update picKey (Maybe.map (\value -> value + 1)) model, Cmd.none)
     Prev dict ->
         let 
             modelNum = getModelNum dict model
             picKey = getPicKey dict
         in 
         if modelNum == 1 then
-            ({ model | nums = Dict.update picKey (\value -> Just ((Dict.size dict) - 1)) model.nums}, Cmd.none)
+            ( Dict.update picKey (\value -> Just ((Dict.size dict) - 1)) model, Cmd.none)
         else 
-            ({ model | nums = Dict.update picKey (Maybe.map (\value -> value - 1)) model.nums}, Cmd.none)
+            ( Dict.update picKey (Maybe.map (\value -> value - 1)) model, Cmd.none)
     Tick time ->
         let
             updateValue key len value =
@@ -72,7 +69,7 @@ update msg model =
             updateKeys keys dict =
                 List.foldl updateKey dict keys
         in
-            ({model | nums = updateKeys keysToUpdate model.nums}, Cmd.none)
+            ( updateKeys keysToUpdate model, Cmd.none)
 
 
 
@@ -83,7 +80,7 @@ galleryView model picDict picPosition picStyle =
                     (case Dict.get 
                         (case Dict.get 0 picDict of
                             Just value -> value
-                            Nothing -> "text") model.nums of 
+                            Nothing -> "text") model of 
                         Just smth -> smth
                         Nothing -> -1) picDict of
                     Just value -> value

@@ -39,9 +39,9 @@ view model =
     div [] [
         div [class "header"] [
             h1 [] [text "Testing" ] ]
-        , Html.map GalleryMessage (Gallery.galleryView model pics ["left", "border"] ["pic", "zoomable"])
-        , Html.map GalleryMessage (Gallery.galleryView model pics2 ["center"] ["pic"])
-        , Html.map GalleryMessage (Gallery.galleryView model pics3 ["right"] ["header", "pic"])
+        , Html.map GalleryMessage (Gallery.galleryView model.nums pics ["left", "border"] ["pic", "zoomable"])
+        , Html.map GalleryMessage (Gallery.galleryView model.nums pics2 ["center"] ["pic"])
+        , Html.map GalleryMessage (Gallery.galleryView model.nums pics3 ["right"] ["header", "pic"])
         , text (Debug.toString model.count)
         , button [ onClick Plus ] [ text "+" ]
         , button [ onClick Minus ] [ text "-" ]
@@ -56,15 +56,15 @@ update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = 
     case msg of
         GalleryMessage message ->
-            updateWith GalleryMessage model (Gallery.update message model )
+            updateWith GalleryMessage model ( Gallery.update message model.nums )
         Plus -> 
             ({model | count = model.count + 1}, Cmd.none)
         Minus ->
             ({model | count = model.count - 1}, Cmd.none)
 
-updateWith : (subMsg -> Msg) -> Model -> ( Model, Cmd subMsg ) -> ( Model, Cmd Msg )
+updateWith : (subMsg -> Msg) -> Model -> ( Gallery.Model, Cmd subMsg ) -> ( Model, Cmd Msg )
 updateWith toMsg model ( subModel, subCmd ) =
-    ( {model | nums = subModel.nums}
+    ( {model | nums = subModel}
     , Cmd.map toMsg subCmd
     )
 
