@@ -1,4 +1,4 @@
-module Files exposing (pics, pics2, pics3)
+module Files exposing (..)
 import Dict exposing (Dict)
 
 pics : Dict Int String
@@ -28,4 +28,13 @@ pics3 = Dict.fromList
         ,(2, "img/cat.png")
         ,(3, "img/dog.png")
         ,(1, "img/donkey.png")
+    ]
+
+highlight : Dict String String
+highlight = Dict.fromList
+    [
+        ("one", "img/cat.png")
+        ,("two", "img/dog.png")
+        ,("three", "img/donkey.png")
+        ,("four", "img/monkey.png")
     ]

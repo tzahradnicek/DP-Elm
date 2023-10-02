@@ -5,18 +5,21 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Dict exposing (Dict)
 import Gallery exposing(..)
-import Files exposing(pics, pics2, pics3)
+import Highlight exposing(..)
+import Files exposing(pics, pics2, pics3, highlight)
 import Time
 
 type Msg
     = Plus
     | Minus
     | GalleryMessage Gallery.Msg
+    | HighlightMessage Highlight.Msg
 
 type alias Model = 
     {
         nums: Dict String Int
         ,count: Int
+        ,highl: String
     }
 
 nums: Dict String Int
@@ -32,6 +35,7 @@ initialModel _ =
     ({
         nums = nums
         ,count = 1
+        ,highl = "two"
     }, Cmd.none)
 
 view : Model -> Html Msg 
@@ -45,6 +49,7 @@ view model =
         , text (Debug.toString model.count)
         , button [ onClick Plus ] [ text "+" ]
         , button [ onClick Minus ] [ text "-" ]
+        , Html.map HighlightMessage (Highlight.highlightView model.highl highlight)
         ]
 
 subscriptions : Model -> Sub Msg
@@ -57,6 +62,8 @@ update msg model =
     case msg of
         GalleryMessage message ->
             updateWith GalleryMessage model ( Gallery.update message model.nums )
+        HighlightMessage message ->
+            updateWithHighl HighlightMessage model ( Highlight.update message model.highl)
         Plus -> 
             ({model | count = model.count + 1}, Cmd.none)
         Minus ->
@@ -65,6 +72,12 @@ update msg model =
 updateWith : (subMsg -> Msg) -> Model -> ( Gallery.Model, Cmd subMsg ) -> ( Model, Cmd Msg )
 updateWith toMsg model ( subModel, subCmd ) =
     ( {model | nums = subModel}
+    , Cmd.map toMsg subCmd
+    )
+
+updateWithHighl : (subMsg -> Msg) -> Model -> ( Highlight.Model, Cmd subMsg ) -> ( Model, Cmd Msg )
+updateWithHighl toMsg model ( subModel, subCmd ) =
+    ( {model | highl = subModel}
     , Cmd.map toMsg subCmd
     )
 

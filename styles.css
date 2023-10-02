@@ -91,3 +91,59 @@
 .zoomable:hover {
     transform: scale(1.2); /* increases the size of the image by 20% on hover */
 }
+
+.column {
+    float: left;
+    width: 22%;
+    padding: 10px;
+}
+  
+.column img {
+    opacity: 0.8;
+    cursor: pointer;
+}
+
+.column img:hover {
+    opacity: 1;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.container {
+    position: relative;
+}
+
+.fullwidth {
+    padding-left: 95px;
+    width: 1500px;
+    height: 900px;
+}
+
+.button-img {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+  }
+
+.button-img img {
+    width: 415.125px;
+    height: 233.500px;
+}
+
+.row {
+    padding-left: 50px;
+    gap: 50px;
+    display: flex;
+}
+
+.selected {
+    border: solid black;
+    border-width: 3px;
+    opacity: 1 !important;
+    cursor: default;
+}

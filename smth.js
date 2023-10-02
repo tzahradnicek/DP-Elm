@@ -5339,7 +5339,7 @@ var $author$project$Main$nums = $elm$core$Dict$fromList(
 		]));
 var $author$project$Main$initialModel = function (_v0) {
 	return _Utils_Tuple2(
-		{count: 1, nums: $author$project$Main$nums},
+		{count: 1, highl: 'two', nums: $author$project$Main$nums},
 		$elm$core$Platform$Cmd$none);
 };
 var $author$project$Main$GalleryMessage = function (a) {
@@ -5658,6 +5658,9 @@ var $author$project$Main$subscriptions = function (model) {
 		$elm$core$Platform$Sub$map,
 		$author$project$Main$GalleryMessage,
 		A2($elm$time$Time$every, 1000, $author$project$Gallery$Tick));
+};
+var $author$project$Main$HighlightMessage = function (a) {
+	return {$: 'HighlightMessage', a: a};
 };
 var $elm$core$Dict$sizeHelp = F2(
 	function (n, dict) {
@@ -6214,6 +6217,19 @@ var $author$project$Gallery$update = F2(
 					$elm$core$Platform$Cmd$none);
 		}
 	});
+var $author$project$Highlight$update = F2(
+	function (msg, model) {
+		switch (msg.$) {
+			case 'One':
+				return _Utils_Tuple2('one', $elm$core$Platform$Cmd$none);
+			case 'Two':
+				return _Utils_Tuple2('two', $elm$core$Platform$Cmd$none);
+			case 'Three':
+				return _Utils_Tuple2('three', $elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2('four', $elm$core$Platform$Cmd$none);
+		}
+	});
 var $elm$core$Platform$Cmd$map = _Platform_map;
 var $author$project$Main$updateWith = F3(
 	function (toMsg, model, _v0) {
@@ -6223,6 +6239,16 @@ var $author$project$Main$updateWith = F3(
 			_Utils_update(
 				model,
 				{nums: subModel}),
+			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
+	});
+var $author$project$Main$updateWithHighl = F3(
+	function (toMsg, model, _v0) {
+		var subModel = _v0.a;
+		var subCmd = _v0.b;
+		return _Utils_Tuple2(
+			_Utils_update(
+				model,
+				{highl: subModel}),
 			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
 	});
 var $author$project$Main$update = F2(
@@ -6235,6 +6261,13 @@ var $author$project$Main$update = F2(
 					$author$project$Main$GalleryMessage,
 					model,
 					A2($author$project$Gallery$update, message, model.nums));
+			case 'HighlightMessage':
+				var message = msg.a;
+				return A3(
+					$author$project$Main$updateWithHighl,
+					$author$project$Main$HighlightMessage,
+					model,
+					A2($author$project$Highlight$update, message, model.highl));
 			case 'Plus':
 				return _Utils_Tuple2(
 					_Utils_update(
@@ -6364,10 +6397,175 @@ var $author$project$Gallery$galleryView = F4(
 				]));
 	});
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
-var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
-var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
+var $author$project$Files$highlight = $elm$core$Dict$fromList(
+	_List_fromArray(
+		[
+			_Utils_Tuple2('one', 'img/cat.png'),
+			_Utils_Tuple2('two', 'img/dog.png'),
+			_Utils_Tuple2('three', 'img/donkey.png'),
+			_Utils_Tuple2('four', 'img/monkey.png')
+		]));
+var $author$project$Highlight$Four = {$: 'Four'};
+var $author$project$Highlight$One = {$: 'One'};
+var $author$project$Highlight$Three = {$: 'Three'};
+var $author$project$Highlight$Two = {$: 'Two'};
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Highlight$highlightView = F2(
+	function (model, picDict) {
+		return A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('row')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$button,
+							_List_fromArray(
+								[
+									$elm$html$Html$Events$onClick($author$project$Highlight$One),
+									$elm$html$Html$Attributes$class('column button-img')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$elm$html$Html$img,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$src(
+											function () {
+												var _v0 = A2($elm$core$Dict$get, 'one', picDict);
+												if (_v0.$ === 'Just') {
+													var value = _v0.a;
+													return value;
+												} else {
+													return 'text';
+												}
+											}()),
+											(model === 'one') ? $elm$html$Html$Attributes$class('selected') : $elm$html$Html$Attributes$class('')
+										]),
+									_List_Nil)
+								])),
+							A2(
+							$elm$html$Html$button,
+							_List_fromArray(
+								[
+									$elm$html$Html$Events$onClick($author$project$Highlight$Two),
+									$elm$html$Html$Attributes$class('column button-img')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$elm$html$Html$img,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$src(
+											function () {
+												var _v1 = A2($elm$core$Dict$get, 'two', picDict);
+												if (_v1.$ === 'Just') {
+													var value = _v1.a;
+													return value;
+												} else {
+													return 'text';
+												}
+											}()),
+											(model === 'two') ? $elm$html$Html$Attributes$class('selected') : $elm$html$Html$Attributes$class('')
+										]),
+									_List_Nil)
+								])),
+							A2(
+							$elm$html$Html$button,
+							_List_fromArray(
+								[
+									$elm$html$Html$Events$onClick($author$project$Highlight$Three),
+									$elm$html$Html$Attributes$class('column button-img')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$elm$html$Html$img,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$src(
+											function () {
+												var _v2 = A2($elm$core$Dict$get, 'three', picDict);
+												if (_v2.$ === 'Just') {
+													var value = _v2.a;
+													return value;
+												} else {
+													return 'text';
+												}
+											}()),
+											(model === 'three') ? $elm$html$Html$Attributes$class('selected') : $elm$html$Html$Attributes$class('')
+										]),
+									_List_Nil)
+								])),
+							A2(
+							$elm$html$Html$button,
+							_List_fromArray(
+								[
+									$elm$html$Html$Events$onClick($author$project$Highlight$Four),
+									$elm$html$Html$Attributes$class('column button-img')
+								]),
+							_List_fromArray(
+								[
+									A2(
+									$elm$html$Html$img,
+									_List_fromArray(
+										[
+											$elm$html$Html$Attributes$src(
+											function () {
+												var _v3 = A2($elm$core$Dict$get, 'four', picDict);
+												if (_v3.$ === 'Just') {
+													var value = _v3.a;
+													return value;
+												} else {
+													return 'text';
+												}
+											}()),
+											(model === 'four') ? $elm$html$Html$Attributes$class('selected') : $elm$html$Html$Attributes$class('')
+										]),
+									_List_Nil)
+								]))
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('container')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(model),
+							A2(
+							$elm$html$Html$img,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$src(
+									function () {
+										var _v4 = A2($elm$core$Dict$get, model, picDict);
+										if (_v4.$ === 'Just') {
+											var value = _v4.a;
+											return value;
+										} else {
+											return 'text';
+										}
+									}()),
+									$elm$html$Html$Attributes$class('fullwidth')
+								]),
+							_List_Nil)
+						]))
+				]));
+	});
+var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
+var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
 var $elm$core$Debug$toString = _Debug_toString;
 var $author$project$Main$view = function (model) {
 	return A2(
@@ -6445,7 +6643,11 @@ var $author$project$Main$view = function (model) {
 				_List_fromArray(
 					[
 						$elm$html$Html$text('-')
-					]))
+					])),
+				A2(
+				$elm$html$Html$map,
+				$author$project$Main$HighlightMessage,
+				A2($author$project$Highlight$highlightView, model.highl, $author$project$Files$highlight))
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
