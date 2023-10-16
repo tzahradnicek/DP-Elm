@@ -38,3 +38,12 @@ highlight = Dict.fromList
         ,("three", "img/donkey.png")
         ,("four", "img/monkey.png")
     ]
+
+grid : Dict String String
+grid = Dict.fromList
+    [
+        ("one", "img/cat.png")
+        ,("two", "img/dog.png")
+        ,("three", "img/donkey.png")
+        ,("four", "img/monkey.png")
+    ]

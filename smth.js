@@ -5339,7 +5339,7 @@ var $author$project$Main$nums = $elm$core$Dict$fromList(
 		]));
 var $author$project$Main$initialModel = function (_v0) {
 	return _Utils_Tuple2(
-		{count: 1, highl: 'two', nums: $author$project$Main$nums},
+		{highl: 'two', nums: $author$project$Main$nums},
 		$elm$core$Platform$Cmd$none);
 };
 var $author$project$Main$GalleryMessage = function (a) {
@@ -5685,6 +5685,35 @@ var $elm$core$Dict$size = function (dict) {
 var $author$project$Gallery$dictSize = function (dict) {
 	return $elm$core$Dict$size(dict) - 2;
 };
+var $author$project$Files$pics = $elm$core$Dict$fromList(
+	_List_fromArray(
+		[
+			_Utils_Tuple2(0, 'pics'),
+			_Utils_Tuple2(1, 'img/cat.png'),
+			_Utils_Tuple2(2, 'img/dog.png'),
+			_Utils_Tuple2(3, 'img/monkey.png'),
+			_Utils_Tuple2(4, 'img/donkey.png')
+		]));
+var $author$project$Files$pics3 = $elm$core$Dict$fromList(
+	_List_fromArray(
+		[
+			_Utils_Tuple2(0, 'pics3'),
+			_Utils_Tuple2(2, 'img/cat.png'),
+			_Utils_Tuple2(3, 'img/dog.png'),
+			_Utils_Tuple2(1, 'img/donkey.png')
+		]));
+var $author$project$Main$keysToUpdate = _List_fromArray(
+	[
+		_Utils_Tuple2(
+		'pics',
+		$author$project$Gallery$dictSize($author$project$Files$pics)),
+		_Utils_Tuple2(
+		'pics2',
+		$author$project$Gallery$dictSize($author$project$Files$pics)),
+		_Utils_Tuple2(
+		'pics3',
+		$author$project$Gallery$dictSize($author$project$Files$pics3))
+	]);
 var $elm$core$Basics$negate = function (n) {
 	return -n;
 };
@@ -5718,44 +5747,6 @@ var $author$project$Gallery$getPicKey = function (picdict) {
 		return 'text';
 	}
 };
-var $author$project$Files$pics = $elm$core$Dict$fromList(
-	_List_fromArray(
-		[
-			_Utils_Tuple2(0, 'pics'),
-			_Utils_Tuple2(1, 'img/cat.png'),
-			_Utils_Tuple2(2, 'img/dog.png'),
-			_Utils_Tuple2(3, 'img/monkey.png'),
-			_Utils_Tuple2(4, 'img/donkey.png')
-		]));
-var $author$project$Files$pics2 = $elm$core$Dict$fromList(
-	_List_fromArray(
-		[
-			_Utils_Tuple2(0, 'pics2'),
-			_Utils_Tuple2(4, 'img/cat.png'),
-			_Utils_Tuple2(1, 'img/dog.png'),
-			_Utils_Tuple2(3, 'img/monkey.png'),
-			_Utils_Tuple2(2, 'img/donkey.png')
-		]));
-var $author$project$Files$pics3 = $elm$core$Dict$fromList(
-	_List_fromArray(
-		[
-			_Utils_Tuple2(0, 'pics3'),
-			_Utils_Tuple2(2, 'img/cat.png'),
-			_Utils_Tuple2(3, 'img/dog.png'),
-			_Utils_Tuple2(1, 'img/donkey.png')
-		]));
-var $author$project$Gallery$keysToUpdate = _List_fromArray(
-	[
-		_Utils_Tuple2(
-		'pics',
-		$author$project$Gallery$dictSize($author$project$Files$pics)),
-		_Utils_Tuple2(
-		'pics2',
-		$author$project$Gallery$dictSize($author$project$Files$pics2)),
-		_Utils_Tuple2(
-		'pics3',
-		$author$project$Gallery$dictSize($author$project$Files$pics3))
-	]);
 var $elm$core$Maybe$map = F2(
 	function (f, maybe) {
 		if (maybe.$ === 'Just') {
@@ -6139,8 +6130,8 @@ var $elm$core$Dict$update = F3(
 			return A2($elm$core$Dict$remove, targetKey, dictionary);
 		}
 	});
-var $author$project$Gallery$update = F2(
-	function (msg, model) {
+var $author$project$Gallery$update = F3(
+	function (msg, model, keysToUpdate) {
 		switch (msg.$) {
 			case 'Next':
 				var dict = msg.a;
@@ -6213,7 +6204,7 @@ var $author$project$Gallery$update = F2(
 						return A3($elm$core$List$foldl, updateKey, dict, keys);
 					});
 				return _Utils_Tuple2(
-					A2(updateKeys, $author$project$Gallery$keysToUpdate, model),
+					A2(updateKeys, keysToUpdate, model),
 					$elm$core$Platform$Cmd$none);
 		}
 	});
@@ -6260,7 +6251,7 @@ var $author$project$Main$update = F2(
 					$author$project$Main$updateWith,
 					$author$project$Main$GalleryMessage,
 					model,
-					A2($author$project$Gallery$update, message, model.nums));
+					A3($author$project$Gallery$update, message, model.nums, $author$project$Main$keysToUpdate));
 			case 'HighlightMessage':
 				var message = msg.a;
 				return A3(
@@ -6268,23 +6259,13 @@ var $author$project$Main$update = F2(
 					$author$project$Main$HighlightMessage,
 					model,
 					A2($author$project$Highlight$update, message, model.highl));
-			case 'Plus':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{count: model.count + 1}),
-					$elm$core$Platform$Cmd$none);
 			default:
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{count: model.count - 1}),
-					$elm$core$Platform$Cmd$none);
+				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Main$Minus = {$: 'Minus'};
-var $author$project$Main$Plus = {$: 'Plus'};
-var $elm$html$Html$button = _VirtualDom_node('button');
+var $author$project$Main$GridMessage = function (a) {
+	return {$: 'GridMessage', a: a};
+};
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
@@ -6301,6 +6282,7 @@ var $author$project$Gallery$Next = function (a) {
 var $author$project$Gallery$Prev = function (a) {
 	return {$: 'Prev', a: a};
 };
+var $elm$html$Html$button = _VirtualDom_node('button');
 var $elm$html$Html$img = _VirtualDom_node('img');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
@@ -6396,6 +6378,85 @@ var $author$project$Gallery$galleryView = F4(
 					_List_Nil)
 				]));
 	});
+var $elm$core$String$concat = function (strings) {
+	return A2($elm$core$String$join, '', strings);
+};
+var $elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(x);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $elm$core$List$tail = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(xs);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $author$project$Grid$generateGrid = function (list) {
+	var secondElem = function () {
+		var _v1 = $elm$core$List$tail(list);
+		if (_v1.$ === 'Just') {
+			var rest = _v1.a;
+			var _v2 = $elm$core$List$head(rest);
+			if (_v2.$ === 'Just') {
+				var second = _v2.a;
+				return second;
+			} else {
+				return '';
+			}
+		} else {
+			return '';
+		}
+	}();
+	var firstElem = function () {
+		var _v0 = $elm$core$List$head(list);
+		if (_v0.$ === 'Just') {
+			var first = _v0.a;
+			return first;
+		} else {
+			return '';
+		}
+	}();
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class(
+				$elm$core$String$concat(
+					_List_fromArray(
+						['grid_item ', secondElem])))
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$img,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$src(
+						$elm$core$String$concat(
+							_List_fromArray(
+								['img/', firstElem]))),
+						$elm$html$Html$Attributes$class('grid_img')
+					]),
+				_List_Nil)
+			]));
+};
+var $author$project$Grid$gridView = function (listOfLists) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('grid')
+			]),
+		A2($elm$core$List$map, $author$project$Grid$generateGrid, listOfLists));
+};
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $author$project$Files$highlight = $elm$core$Dict$fromList(
 	_List_fromArray(
@@ -6409,8 +6470,6 @@ var $author$project$Highlight$Four = {$: 'Four'};
 var $author$project$Highlight$One = {$: 'One'};
 var $author$project$Highlight$Three = {$: 'Three'};
 var $author$project$Highlight$Two = {$: 'Two'};
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Highlight$highlightView = F2(
 	function (model, picDict) {
 		return A2(
@@ -6543,7 +6602,6 @@ var $author$project$Highlight$highlightView = F2(
 						]),
 					_List_fromArray(
 						[
-							$elm$html$Html$text(model),
 							A2(
 							$elm$html$Html$img,
 							_List_fromArray(
@@ -6566,7 +6624,17 @@ var $author$project$Highlight$highlightView = F2(
 	});
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
-var $elm$core$Debug$toString = _Debug_toString;
+var $author$project$Files$pics2 = $elm$core$Dict$fromList(
+	_List_fromArray(
+		[
+			_Utils_Tuple2(0, 'pics2'),
+			_Utils_Tuple2(4, 'img/cat.png'),
+			_Utils_Tuple2(1, 'img/dog.png'),
+			_Utils_Tuple2(3, 'img/monkey.png'),
+			_Utils_Tuple2(2, 'img/donkey.png')
+		]));
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $author$project$Main$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
@@ -6622,32 +6690,23 @@ var $author$project$Main$view = function (model) {
 						['right']),
 					_List_fromArray(
 						['header', 'pic']))),
-				$elm$html$Html$text(
-				$elm$core$Debug$toString(model.count)),
-				A2(
-				$elm$html$Html$button,
-				_List_fromArray(
-					[
-						$elm$html$Html$Events$onClick($author$project$Main$Plus)
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text('+')
-					])),
-				A2(
-				$elm$html$Html$button,
-				_List_fromArray(
-					[
-						$elm$html$Html$Events$onClick($author$project$Main$Minus)
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text('-')
-					])),
 				A2(
 				$elm$html$Html$map,
 				$author$project$Main$HighlightMessage,
-				A2($author$project$Highlight$highlightView, model.highl, $author$project$Files$highlight))
+				A2($author$project$Highlight$highlightView, model.highl, $author$project$Files$highlight)),
+				A2(
+				$elm$html$Html$map,
+				$author$project$Main$GridMessage,
+				$author$project$Grid$gridView(
+					_List_fromArray(
+						[
+							_List_fromArray(
+							['monkey.png', 'slowmo']),
+							_List_fromArray(
+							['donkey.png', 'bright']),
+							_List_fromArray(
+							['cat.png', 'zoomable'])
+						])))
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(

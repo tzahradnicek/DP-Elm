@@ -6,19 +6,18 @@ import Html.Events exposing (..)
 import Dict exposing (Dict)
 import Gallery exposing(..)
 import Highlight exposing(..)
+import Grid exposing(..)
 import Files exposing(pics, pics2, pics3, highlight)
 import Time
 
 type Msg
-    = Plus
-    | Minus
-    | GalleryMessage Gallery.Msg
+    = GalleryMessage Gallery.Msg
     | HighlightMessage Highlight.Msg
+    | GridMessage Grid.Msg
 
 type alias Model = 
     {
         nums: Dict String Int
-        ,count: Int
         ,highl: String
     }
 
@@ -34,9 +33,13 @@ initialModel : () -> (Model, Cmd Msg)
 initialModel _ = 
     ({
         nums = nums
-        ,count = 1
         ,highl = "two"
     }, Cmd.none)
+
+-- variable used in the update for all the gallery views that should be ticking automatically
+keysToUpdate : List (String, Int)
+keysToUpdate =
+    [ ("pics", Gallery.dictSize pics), ("pics2", Gallery.dictSize pics), ("pics3", Gallery.dictSize pics3) ]
 
 view : Model -> Html Msg 
 view model = 
@@ -46,28 +49,23 @@ view model =
         , Html.map GalleryMessage (Gallery.galleryView model.nums pics ["left", "border"] ["pic", "zoomable"])
         , Html.map GalleryMessage (Gallery.galleryView model.nums pics2 ["center"] ["pic"])
         , Html.map GalleryMessage (Gallery.galleryView model.nums pics3 ["right"] ["header", "pic"])
-        , text (Debug.toString model.count)
-        , button [ onClick Plus ] [ text "+" ]
-        , button [ onClick Minus ] [ text "-" ]
         , Html.map HighlightMessage (Highlight.highlightView model.highl highlight)
+        , Html.map GridMessage (Grid.gridView [["monkey.png", "slowmo"], ["donkey.png", "bright"], ["cat.png", "zoomable"]])
         ]
 
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.map GalleryMessage (Time.every 1000 Tick)
-    -- Sub.none
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = 
     case msg of
         GalleryMessage message ->
-            updateWith GalleryMessage model ( Gallery.update message model.nums )
+            updateWith GalleryMessage model ( Gallery.update message model.nums keysToUpdate)
         HighlightMessage message ->
             updateWithHighl HighlightMessage model ( Highlight.update message model.highl)
-        Plus -> 
-            ({model | count = model.count + 1}, Cmd.none)
-        Minus ->
-            ({model | count = model.count - 1}, Cmd.none)
+        _ ->
+            (model, Cmd.none)
 
 updateWith : (subMsg -> Msg) -> Model -> ( Gallery.Model, Cmd subMsg ) -> ( Model, Cmd Msg )
 updateWith toMsg model ( subModel, subCmd ) =

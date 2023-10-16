@@ -45,8 +45,7 @@ highlightView model picDict =
                                                             Nothing -> "text"), if model == "four" then class "selected" else class ""] []]
         ]
         ,div  [class "container" ] [
-            text model
-            ,img [src (case Dict.get model picDict of
+            img [src (case Dict.get model picDict of
                     Just value -> value
                     Nothing -> "text"), class "fullwidth"] []
         ]

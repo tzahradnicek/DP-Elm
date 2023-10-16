@@ -84,12 +84,14 @@
 }
 
 .zoomable {
-    transition: transform 0.5s ease; /* adds a smooth transition effect */
-    display: block;
+    transition: transform 1s, filter 2s ease-in-out;
+    filter: blur(2px);
+    transform: scale(1.05);
 }
 
 .zoomable:hover {
-    transform: scale(1.2); /* increases the size of the image by 20% on hover */
+    filter: blur(0);
+    transform: scale(1);
 }
 
 .column {
@@ -115,6 +117,7 @@
 
 .container {
     position: relative;
+    overflow: hidden;
 }
 
 .fullwidth {
@@ -146,4 +149,51 @@
     border-width: 3px;
     opacity: 1 !important;
     cursor: default;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 columns per row */
+    grid-gap: 10px; /* Adjust the gap between grid items as needed */
+    grid-auto-rows: minmax(100px, auto); /* Adjust the row height as needed */
+    grid-template-rows: repeat(4, minmax(0, 1fr)); /* Limit the grid to 4 rows */
+    max-height: 200vh; /* Limit the container height to the viewport height */
+    overflow-y: auto; /* Add vertical scrolling if necessary */
+}
+
+.grid_item {
+    padding: 10px;
+    text-align: center;
+    display: flex; /* Use flex layout for the items */
+    flex-direction: column; /* Stack content vertically */
+    justify-content: center; /* Center content vertically */
+    align-items: center; /* Center content horizontally */
+}
+
+.grid_img {
+    max-width: 100%; /* Ensure images don't exceed the container width */
+    max-height: 100%; 
+}
+
+/* Slow-motion Zoom Container */
+.slowmo {
+    transform-origin: 50% 65%;
+    transition: transform 5s, filter 3s ease-in-out;
+    filter: brightness(150%);
+}
+
+.slowmo:hover {
+    filter: brightness(100%);
+    transform: scale(1.3);
+}
+
+.bright {
+    transition: transform 2s, filter 1.5s ease-in-out;
+    transform-origin: center center;
+    filter: brightness(50%);
+  }
+  
+.bright:hover {
+    filter: brightness(100%);
+    transform: scale(1.3);
 }

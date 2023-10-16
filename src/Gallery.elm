@@ -5,7 +5,6 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Dict exposing (Dict)
 import Time
-import Files exposing(pics, pics2, pics3)
 
 type alias Model = 
     Dict String Int
@@ -28,15 +27,12 @@ getPicKey picdict =
         Nothing -> "text")
 
 -- minus 2 to get the number of images in dict
+dictSize : Dict Int String -> Int
 dictSize dict = 
     ((Dict.size dict) - 2)
 
--- variable used in the update for all the gallery views that should be ticking automatically
-keysToUpdate =
-    [ ("pics", dictSize pics), ("pics2", dictSize pics2), ("pics3", dictSize pics3) ]
-
-update : Msg -> Model -> (Model, Cmd Msg)
-update msg model =
+update : Msg -> Model -> List (String, Int) -> (Model, Cmd Msg)
+update msg model keysToUpdate =
   case msg of
     Next dict ->
         let 
@@ -52,10 +48,10 @@ update msg model =
             modelNum = getModelNum dict model
             picKey = getPicKey dict
         in 
-        if modelNum == 1 then
-            ( Dict.update picKey (\value -> Just ((Dict.size dict) - 1)) model, Cmd.none)
-        else 
-            ( Dict.update picKey (Maybe.map (\value -> value - 1)) model, Cmd.none)
+            if modelNum == 1 then
+                ( Dict.update picKey (\value -> Just ((Dict.size dict) - 1)) model, Cmd.none)
+            else 
+                ( Dict.update picKey (Maybe.map (\value -> value - 1)) model, Cmd.none)
     Tick time ->
         let
             updateValue key len value =
