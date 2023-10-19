@@ -5339,7 +5339,7 @@ var $author$project$Main$nums = $elm$core$Dict$fromList(
 		]));
 var $author$project$Main$initialModel = function (_v0) {
 	return _Utils_Tuple2(
-		{highl: 'two', nums: $author$project$Main$nums},
+		{currPage: 'Home', highl: 'two', nums: $author$project$Main$nums},
 		$elm$core$Platform$Cmd$none);
 };
 var $author$project$Main$GalleryMessage = function (a) {
@@ -5714,6 +5714,31 @@ var $author$project$Main$keysToUpdate = _List_fromArray(
 		'pics3',
 		$author$project$Gallery$dictSize($author$project$Files$pics3))
 	]);
+var $author$project$Main$navBarUpdate = F2(
+	function (model, message) {
+		switch (message.$) {
+			case 'Home':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{currPage: 'Home'}),
+					$elm$core$Platform$Cmd$none);
+			case 'About':
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{currPage: 'About'}),
+					$elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{currPage: 'Contact'}),
+					$elm$core$Platform$Cmd$none);
+		}
+	});
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $author$project$Main$scrollToElement = _Platform_outgoingPort('scrollToElement', $elm$json$Json$Encode$string);
 var $elm$core$Basics$negate = function (n) {
 	return -n;
 };
@@ -6259,14 +6284,22 @@ var $author$project$Main$update = F2(
 					$author$project$Main$HighlightMessage,
 					model,
 					A2($author$project$Highlight$update, message, model.highl));
+			case 'PageMsg':
+				var message = msg.a;
+				return A2($author$project$Main$navBarUpdate, model, message);
+			case 'ScrollToElement':
+				var message = msg.a;
+				return _Utils_Tuple2(
+					model,
+					$author$project$Main$scrollToElement(message));
 			default:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Main$GridMessage = function (a) {
-	return {$: 'GridMessage', a: a};
+var $author$project$Main$ScrollToElement = function (a) {
+	return {$: 'ScrollToElement', a: a};
 };
-var $elm$json$Json$Encode$string = _Json_wrap;
+var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
 		return A2(
@@ -6276,14 +6309,20 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 	});
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$html$Html$div = _VirtualDom_node('div');
-var $author$project$Gallery$Next = function (a) {
-	return {$: 'Next', a: a};
+var $elm$html$Html$h1 = _VirtualDom_node('h1');
+var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
+var $author$project$Main$About = {$: 'About'};
+var $author$project$Main$Contact = {$: 'Contact'};
+var $author$project$Main$Home = {$: 'Home'};
+var $author$project$Main$PageMsg = function (a) {
+	return {$: 'PageMsg', a: a};
 };
-var $author$project$Gallery$Prev = function (a) {
-	return {$: 'Prev', a: a};
+var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
+var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
+var $elm$core$String$concat = function (strings) {
+	return A2($elm$core$String$join, '', strings);
 };
-var $elm$html$Html$button = _VirtualDom_node('button');
-var $elm$html$Html$img = _VirtualDom_node('img');
+var $elm$html$Html$li = _VirtualDom_node('li');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -6301,346 +6340,104 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $elm$html$Html$Attributes$src = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'src',
-		_VirtualDom_noJavaScriptOrHtmlUri(url));
-};
-var $author$project$Gallery$galleryView = F4(
-	function (model, picDict, picPosition, picStyle) {
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$Main$navBarItem = F3(
+	function (model, label, page) {
+		var style = 'clickable';
 		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class(
-					A2($elm$core$String$join, ' ', picPosition))
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$img,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$src(
-							function () {
-								var _v0 = A2(
-									$elm$core$Dict$get,
-									function () {
-										var _v1 = A2(
-											$elm$core$Dict$get,
-											function () {
-												var _v2 = A2($elm$core$Dict$get, 0, picDict);
-												if (_v2.$ === 'Just') {
-													var value = _v2.a;
-													return value;
-												} else {
-													return 'text';
-												}
-											}(),
-											model);
-										if (_v1.$ === 'Just') {
-											var smth = _v1.a;
-											return smth;
-										} else {
-											return -1;
-										}
-									}(),
-									picDict);
-								if (_v0.$ === 'Just') {
-									var value = _v0.a;
-									return value;
-								} else {
-									return 'text';
-								}
-							}()),
-							$elm$html$Html$Attributes$class(
-							A2($elm$core$String$join, ' ', picStyle))
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$button,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('centerLeft leftArrow'),
-							$elm$html$Html$Events$onClick(
-							$author$project$Gallery$Prev(picDict))
-						]),
-					_List_Nil),
-					A2(
-					$elm$html$Html$button,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('centerRight rightArrow'),
-							$elm$html$Html$Events$onClick(
-							$author$project$Gallery$Next(picDict))
-						]),
-					_List_Nil)
-				]));
-	});
-var $elm$core$String$concat = function (strings) {
-	return A2($elm$core$String$join, '', strings);
-};
-var $elm$core$List$head = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(x);
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
-var $elm$core$List$tail = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(xs);
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
-var $author$project$Grid$generateGrid = function (list) {
-	var secondElem = function () {
-		var _v1 = $elm$core$List$tail(list);
-		if (_v1.$ === 'Just') {
-			var rest = _v1.a;
-			var _v2 = $elm$core$List$head(rest);
-			if (_v2.$ === 'Just') {
-				var second = _v2.a;
-				return second;
-			} else {
-				return '';
-			}
-		} else {
-			return '';
-		}
-	}();
-	var firstElem = function () {
-		var _v0 = $elm$core$List$head(list);
-		if (_v0.$ === 'Just') {
-			var first = _v0.a;
-			return first;
-		} else {
-			return '';
-		}
-	}();
-	return A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class(
-				$elm$core$String$concat(
-					_List_fromArray(
-						['grid_item ', secondElem])))
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$img,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$src(
-						$elm$core$String$concat(
-							_List_fromArray(
-								['img/', firstElem]))),
-						$elm$html$Html$Attributes$class('grid_img')
-					]),
-				_List_Nil)
-			]));
-};
-var $author$project$Grid$gridView = function (listOfLists) {
-	return A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('grid')
-			]),
-		A2($elm$core$List$map, $author$project$Grid$generateGrid, listOfLists));
-};
-var $elm$html$Html$h1 = _VirtualDom_node('h1');
-var $author$project$Files$highlight = $elm$core$Dict$fromList(
-	_List_fromArray(
-		[
-			_Utils_Tuple2('one', 'img/cat.png'),
-			_Utils_Tuple2('two', 'img/dog.png'),
-			_Utils_Tuple2('three', 'img/donkey.png'),
-			_Utils_Tuple2('four', 'img/monkey.png')
-		]));
-var $author$project$Highlight$Four = {$: 'Four'};
-var $author$project$Highlight$One = {$: 'One'};
-var $author$project$Highlight$Three = {$: 'Three'};
-var $author$project$Highlight$Two = {$: 'Two'};
-var $author$project$Highlight$highlightView = F2(
-	function (model, picDict) {
-		return A2(
-			$elm$html$Html$div,
+			$elm$html$Html$li,
 			_List_Nil,
 			_List_fromArray(
 				[
 					A2(
-					$elm$html$Html$div,
+					$elm$html$Html$a,
 					_List_fromArray(
 						[
-							$elm$html$Html$Attributes$class('row')
+							_Utils_eq(model.currPage, label) ? $elm$html$Html$Attributes$class(
+							$elm$core$String$concat(
+								_List_fromArray(
+									[style, ' active']))) : $elm$html$Html$Attributes$class(style),
+							$elm$html$Html$Events$onClick(page)
 						]),
 					_List_fromArray(
 						[
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$Highlight$One),
-									$elm$html$Html$Attributes$class('column button-img')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$img,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$src(
-											function () {
-												var _v0 = A2($elm$core$Dict$get, 'one', picDict);
-												if (_v0.$ === 'Just') {
-													var value = _v0.a;
-													return value;
-												} else {
-													return 'text';
-												}
-											}()),
-											(model === 'one') ? $elm$html$Html$Attributes$class('selected') : $elm$html$Html$Attributes$class('')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$Highlight$Two),
-									$elm$html$Html$Attributes$class('column button-img')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$img,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$src(
-											function () {
-												var _v1 = A2($elm$core$Dict$get, 'two', picDict);
-												if (_v1.$ === 'Just') {
-													var value = _v1.a;
-													return value;
-												} else {
-													return 'text';
-												}
-											}()),
-											(model === 'two') ? $elm$html$Html$Attributes$class('selected') : $elm$html$Html$Attributes$class('')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$Highlight$Three),
-									$elm$html$Html$Attributes$class('column button-img')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$img,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$src(
-											function () {
-												var _v2 = A2($elm$core$Dict$get, 'three', picDict);
-												if (_v2.$ === 'Just') {
-													var value = _v2.a;
-													return value;
-												} else {
-													return 'text';
-												}
-											}()),
-											(model === 'three') ? $elm$html$Html$Attributes$class('selected') : $elm$html$Html$Attributes$class('')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$Highlight$Four),
-									$elm$html$Html$Attributes$class('column button-img')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$img,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$src(
-											function () {
-												var _v3 = A2($elm$core$Dict$get, 'four', picDict);
-												if (_v3.$ === 'Just') {
-													var value = _v3.a;
-													return value;
-												} else {
-													return 'text';
-												}
-											}()),
-											(model === 'four') ? $elm$html$Html$Attributes$class('selected') : $elm$html$Html$Attributes$class('')
-										]),
-									_List_Nil)
-								]))
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('container')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$img,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$src(
-									function () {
-										var _v4 = A2($elm$core$Dict$get, model, picDict);
-										if (_v4.$ === 'Just') {
-											var value = _v4.a;
-											return value;
-										} else {
-											return 'text';
-										}
-									}()),
-									$elm$html$Html$Attributes$class('fullwidth')
-								]),
-							_List_Nil)
+							$elm$html$Html$text(label)
 						]))
 				]));
 	});
-var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
-var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
-var $author$project$Files$pics2 = $elm$core$Dict$fromList(
-	_List_fromArray(
-		[
-			_Utils_Tuple2(0, 'pics2'),
-			_Utils_Tuple2(4, 'img/cat.png'),
-			_Utils_Tuple2(1, 'img/dog.png'),
-			_Utils_Tuple2(3, 'img/monkey.png'),
-			_Utils_Tuple2(2, 'img/donkey.png')
-		]));
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $elm$html$Html$ul = _VirtualDom_node('ul');
+var $author$project$Main$navBarView = function (model) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('navcontainer')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$ul,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('navbar')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$map,
+						$author$project$Main$PageMsg,
+						A3($author$project$Main$navBarItem, model, 'Home', $author$project$Main$Home)),
+						A2(
+						$elm$html$Html$map,
+						$author$project$Main$PageMsg,
+						A3($author$project$Main$navBarItem, model, 'About', $author$project$Main$About)),
+						A2(
+						$elm$html$Html$map,
+						$author$project$Main$PageMsg,
+						A3($author$project$Main$navBarItem, model, 'Contact', $author$project$Main$Contact))
+					]))
+			]));
+};
+var $elm$html$Html$br = _VirtualDom_node('br');
+var $author$project$Main$visibleClass = F3(
+	function (model, input, userclass) {
+		return _Utils_eq(model.currPage, input) ? $elm$html$Html$Attributes$class(userclass) : $elm$html$Html$Attributes$class(
+			$elm$core$String$concat(
+				_List_fromArray(
+					['notvisible ', userclass])));
+	});
+var $author$project$Main$paragprahView = F4(
+	function (model, context, elementID, content) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A3($author$project$Main$visibleClass, model, context, 'textcontainer'),
+					$elm$html$Html$Attributes$id(elementID)
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text(content),
+					A2($elm$html$Html$br, _List_Nil, _List_Nil)
+				]));
+	});
 var $author$project$Main$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
-		_List_Nil,
 		_List_fromArray(
 			[
+				$elm$html$Html$Attributes$id('bodydiv')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$id('top')
+					]),
+				_List_Nil),
 				A2(
 				$elm$html$Html$div,
 				_List_fromArray(
@@ -6649,64 +6446,37 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_fromArray(
 					[
+						$author$project$Main$navBarView(model),
 						A2(
 						$elm$html$Html$h1,
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Testing')
+								$elm$html$Html$text('Práca s komponentmi v jazyku Elm')
 							]))
 					])),
+				A4($author$project$Main$paragprahView, model, 'Home', 'first', 'text for homepagasdsajgajdgbkajdbgkjadbgkjadbgkjadbgjbdgakjgbkadjgbkjdabgkjdabgkjdagbkadjgbadkjgbdakgjadgbkadjgbkjdagbkjadgbkadjgbkadjgbkadjgbkjadbgkjadbgkdjabgkjdabgkjadbgjkadbgkjadgbdkabgdajgbkadjgbkjadgbkajdgbkadjgbkadjgbkadjgbkadjgbgkjdabdgkajbgdakjalfjlaskdje'),
+				A4($author$project$Main$paragprahView, model, 'Home', 'second', 'text for homepage2'),
+				A4($author$project$Main$paragprahView, model, 'Home', 'second', 'text for homepage2'),
+				A4($author$project$Main$paragprahView, model, 'Home', 'second', 'text for homepage2'),
+				A4($author$project$Main$paragprahView, model, 'Home', 'second', 'text for homepage2'),
+				A4($author$project$Main$paragprahView, model, 'Home', 'second', 'text for homepage2'),
+				A4($author$project$Main$paragprahView, model, 'Home', 'second', 'text for homepage3'),
+				A4($author$project$Main$paragprahView, model, 'About', 'second', 'text for about'),
+				A4($author$project$Main$paragprahView, model, 'Contact', 'second', 'text for contact'),
+				A4($author$project$Main$paragprahView, model, 'Home', 'third', 'text for contact'),
 				A2(
-				$elm$html$Html$map,
-				$author$project$Main$GalleryMessage,
-				A4(
-					$author$project$Gallery$galleryView,
-					model.nums,
-					$author$project$Files$pics,
-					_List_fromArray(
-						['left', 'border']),
-					_List_fromArray(
-						['pic', 'zoomable']))),
-				A2(
-				$elm$html$Html$map,
-				$author$project$Main$GalleryMessage,
-				A4(
-					$author$project$Gallery$galleryView,
-					model.nums,
-					$author$project$Files$pics2,
-					_List_fromArray(
-						['center']),
-					_List_fromArray(
-						['pic']))),
-				A2(
-				$elm$html$Html$map,
-				$author$project$Main$GalleryMessage,
-				A4(
-					$author$project$Gallery$galleryView,
-					model.nums,
-					$author$project$Files$pics3,
-					_List_fromArray(
-						['right']),
-					_List_fromArray(
-						['header', 'pic']))),
-				A2(
-				$elm$html$Html$map,
-				$author$project$Main$HighlightMessage,
-				A2($author$project$Highlight$highlightView, model.highl, $author$project$Files$highlight)),
-				A2(
-				$elm$html$Html$map,
-				$author$project$Main$GridMessage,
-				$author$project$Grid$gridView(
-					_List_fromArray(
-						[
-							_List_fromArray(
-							['monkey.png', 'slowmo']),
-							_List_fromArray(
-							['donkey.png', 'bright']),
-							_List_fromArray(
-							['cat.png', 'zoomable'])
-						])))
+				$elm$html$Html$a,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onClick(
+						$author$project$Main$ScrollToElement('top')),
+						$elm$html$Html$Attributes$class('clickable')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Back To Top')
+					]))
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
