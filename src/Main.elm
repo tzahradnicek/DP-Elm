@@ -4,18 +4,12 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Dict exposing (Dict)
-import Gallery exposing(..)
-import Highlight exposing(..)
-import Grid exposing(..)
-import Files exposing(pics, pics2, pics3, highlight)
-import Time
+import ComponentInterface exposing(..)
 
 type Msg
-    = GalleryMessage Gallery.Msg
-    | HighlightMessage Highlight.Msg
-    | GridMessage Grid.Msg
-    | PageMsg PageMsg
+    = PageMsg PageMsg
     | ScrollToElement String
+    | ComponentIntMessage ComponentInterface.Msg
 
 type PageMsg 
     = Home
@@ -45,20 +39,16 @@ initialModel _ =
         ,currPage = "Home"
     }, Cmd.none)
 
--- variable used in the update for all the gallery views that should be ticking automatically
-keysToUpdate : List (String, Int)
-keysToUpdate =
-    [ ("pics", Gallery.dictSize pics), ("pics2", Gallery.dictSize pics), ("pics3", Gallery.dictSize pics3) ]
 
 view : Model -> Html Msg 
 view model = 
     div [id "bodydiv"] [
         div [id "top"] []
         , div [class "header"] [
-            navBarView model
-            , h1 [] [ text "Práca s komponentmi v jazyku Elm"] 
+            h1 [] [ text "Práca s komponentmi v jazyku Elm"] 
+            , navBarView model
             ] 
-        , paragprahView model "Home" "first" "text for homepagasdsajgajdgbkajdbgkjadbgkjadbgkjadbgjbdgakjgbkadjgbkjdabgkjdabgkjdagbkadjgbadkjgbdakgjadgbkadjgbkjdagbkjadgbkadjgbkadjgbkadjgbkjadbgkjadbgkdjabgkjdabgkjadbgjkadbgkjadgbdkabgdajgbkadjgbkjadgbkajdgbkadjgbkadjgbkadjgbkadjgbgkjdabdgkajbgdakjalfjlaskdje"
+        , paragprahView model "Home" "first" "text for home\n pagasdsajgajdgbkajdbgk jadbgkjadbgkjadbgjbdgakjgbkadjgbkjdabgkjdabgk jdagbkadjgbadkjgbdakgjadg bkadjgbkjdagbkjadgbkadjgbkadjgbkadjgbkjadbgkjadbgkdj abgkjdabgkjadbgjkadbgkjadgbdkabgdajgbkadjgbkjadgb kajdgbkadjgbkadjgbkadjgbkadjgbgkjdabdgkaj bgdakjalfjlaskdje"
         , paragprahView model "Home" "second" "text for homepage2"
         , paragprahView model "Home" "second" "text for homepage2"
         , paragprahView model "Home" "second" "text for homepage2"
@@ -67,10 +57,11 @@ view model =
         , paragprahView model "Home" "second" "text for homepage3"
         , paragprahView model "About" "second" "text for about"
         , paragprahView model "Contact" "second" "text for contact"
-        -- , div [visibleClass model "Home" ""] [
+        , snippetView model "div [class 'myclass'] [\n text 'mytext'\n , button [class 'buttonclass'] []\n]"
+        , Html.map ComponentIntMessage (ComponentInterface.view model)
+        -- , div [visibleClass model "Home" "textcontainer"] [
         --     Html.map GalleryMessage (Gallery.galleryView model.nums pics ["left", "border"] ["pic", "zoomable"])
-        -- ]
-        , paragprahView model "Home" "third" "text for contact"
+        -- ]   
         , a [ onClick (ScrollToElement "top"), class "clickable"] [text "Back To Top"]
         -- , Html.map GalleryMessage (Gallery.galleryView model.nums pics ["left", "border"] ["pic", "zoomable"])
         -- , Html.map GalleryMessage (Gallery.galleryView model.nums pics2 ["center"] ["pic"])
@@ -79,35 +70,19 @@ view model =
         -- , Html.map GridMessage (Grid.gridView [["monkey.png", "slowmo"], ["donkey.png", "bright"], ["cat.png", "zoomable"]])
         ]
 
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.map GalleryMessage (Time.every 1000 Tick)
-
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = 
     case msg of
-        GalleryMessage message ->
-            updateWith GalleryMessage model ( Gallery.update message model.nums keysToUpdate)
-        HighlightMessage message ->
-            updateWithHighl HighlightMessage model ( Highlight.update message model.highl)
+        ComponentIntMessage message ->
+            updateInterface ComponentIntMessage ( ComponentInterface.update message model)
         PageMsg message -> 
             navBarUpdate model message
         ScrollToElement message ->
             (model, scrollToElement message)
-        _ ->
-            (model, Cmd.none)
 
-updateWith : (subMsg -> Msg) -> Model -> ( Gallery.Model, Cmd subMsg ) -> ( Model, Cmd Msg )
-updateWith toMsg model ( subModel, subCmd ) =
-    ( {model | nums = subModel}
-    , Cmd.map toMsg subCmd
-    )
-
-updateWithHighl : (subMsg -> Msg) -> Model -> ( Highlight.Model, Cmd subMsg ) -> ( Model, Cmd Msg )
-updateWithHighl toMsg model ( subModel, subCmd ) =
-    ( {model | highl = subModel}
-    , Cmd.map toMsg subCmd
-    )
+updateInterface : (subMsg -> Msg) -> ( ComponentInterface.Model, Cmd subMsg ) -> ( Model, Cmd Msg )
+updateInterface toMsg ( subModel, subCmd ) =
+    ( subModel, Cmd.map toMsg subCmd)
 
 navBarView : Model -> Html Msg
 navBarView model = 
@@ -152,8 +127,23 @@ paragprahView: Model -> String -> String -> String -> Html Msg
 paragprahView model context elementID content = 
     div [visibleClass model context "textcontainer", id elementID] [
         text content
-        ,br [] []
+        , br [] []
     ]
+
+snippetView: Model -> String -> Html Msg
+snippetView model codesnippet =
+     div [ class "textcontainer"] [
+        pre [] [
+            code [class "language-elm line-numbers line-highlight"] [
+                text codesnippet
+            ]
+        ]
+        , br [] []
+    ]
+
+componentSubcriptions : Model -> Sub Msg
+componentSubcriptions model = 
+    Sub.map ComponentIntMessage (ComponentInterface.subscriptions model)
 
 port scrollToElement: String -> Cmd msg
 
@@ -164,5 +154,5 @@ main =
         init = initialModel
         ,view = view
         ,update = update
-        ,subscriptions = subscriptions
+        ,subscriptions = componentSubcriptions
     }
