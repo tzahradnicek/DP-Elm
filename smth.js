@@ -4416,6 +4416,9 @@ function _Browser_load(url)
 		}
 	}));
 }
+var $elm$core$Basics$identity = function (x) {
+	return x;
+};
 var $author$project$Main$ComponentIntMessage = function (a) {
 	return {$: 'ComponentIntMessage', a: a};
 };
@@ -5334,9 +5337,6 @@ var $elm$core$List$map = F2(
 			_List_Nil,
 			xs);
 	});
-var $elm$core$Basics$identity = function (x) {
-	return x;
-};
 var $elm$time$Time$Posix = function (a) {
 	return {$: 'Posix', a: a};
 };
@@ -5668,33 +5668,11 @@ var $author$project$Main$initialModel = function (_v0) {
 		{currPage: 'Home', highl: 'two', nums: $author$project$Main$nums},
 		$elm$core$Platform$Cmd$none);
 };
-var $author$project$Main$navBarUpdate = F2(
-	function (model, message) {
-		switch (message.$) {
-			case 'Home':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{currPage: 'Home'}),
-					$elm$core$Platform$Cmd$none);
-			case 'About':
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{currPage: 'About'}),
-					$elm$core$Platform$Cmd$none);
-			default:
-				return _Utils_Tuple2(
-					_Utils_update(
-						model,
-						{currPage: 'Contact'}),
-					$elm$core$Platform$Cmd$none);
-		}
-	});
-var $elm$json$Json$Encode$string = _Json_wrap;
-var $author$project$Main$scrollToElement = _Platform_outgoingPort('scrollToElement', $elm$json$Json$Encode$string);
 var $author$project$ComponentInterface$HighlightMessage = function (a) {
 	return {$: 'HighlightMessage', a: a};
+};
+var $author$project$ComponentInterface$PageMsg = function (a) {
+	return {$: 'PageMsg', a: a};
 };
 var $elm$core$Dict$sizeHelp = F2(
 	function (n, dict) {
@@ -5748,6 +5726,8 @@ var $author$project$ComponentInterface$keysToUpdate = _List_fromArray(
 		'pics3',
 		$author$project$Gallery$dictSize($author$project$Files$pics3))
 	]);
+var $elm$json$Json$Encode$string = _Json_wrap;
+var $author$project$ComponentInterface$scrollToElement = _Platform_outgoingPort('scrollToElement', $elm$json$Json$Encode$string);
 var $elm$core$Basics$negate = function (n) {
 	return -n;
 };
@@ -6255,8 +6235,19 @@ var $author$project$Highlight$update = F2(
 				return _Utils_Tuple2('four', $elm$core$Platform$Cmd$none);
 		}
 	});
+var $author$project$PageElements$update = F2(
+	function (message, model) {
+		switch (message.$) {
+			case 'Home':
+				return _Utils_Tuple2('Home', $elm$core$Platform$Cmd$none);
+			case 'About':
+				return _Utils_Tuple2('About', $elm$core$Platform$Cmd$none);
+			default:
+				return _Utils_Tuple2('Contact', $elm$core$Platform$Cmd$none);
+		}
+	});
 var $elm$core$Platform$Cmd$map = _Platform_map;
-var $author$project$ComponentInterface$updateWith = F3(
+var $author$project$ComponentInterface$updateGallery = F3(
 	function (toMsg, model, _v0) {
 		var subModel = _v0.a;
 		var subCmd = _v0.b;
@@ -6266,7 +6257,7 @@ var $author$project$ComponentInterface$updateWith = F3(
 				{nums: subModel}),
 			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
 	});
-var $author$project$ComponentInterface$updateWithHighl = F3(
+var $author$project$ComponentInterface$updateHighlight = F3(
 	function (toMsg, model, _v0) {
 		var subModel = _v0.a;
 		var subCmd = _v0.b;
@@ -6276,23 +6267,45 @@ var $author$project$ComponentInterface$updateWithHighl = F3(
 				{highl: subModel}),
 			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
 	});
+var $author$project$ComponentInterface$updateNavBar = F3(
+	function (toMsg, model, _v0) {
+		var subModel = _v0.a;
+		var subCmd = _v0.b;
+		return _Utils_Tuple2(
+			_Utils_update(
+				model,
+				{currPage: subModel}),
+			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
+	});
 var $author$project$ComponentInterface$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 'GalleryMessage':
 				var message = msg.a;
 				return A3(
-					$author$project$ComponentInterface$updateWith,
+					$author$project$ComponentInterface$updateGallery,
 					$author$project$ComponentInterface$GalleryMessage,
 					model,
 					A3($author$project$Gallery$update, message, model.nums, $author$project$ComponentInterface$keysToUpdate));
 			case 'HighlightMessage':
 				var message = msg.a;
 				return A3(
-					$author$project$ComponentInterface$updateWithHighl,
+					$author$project$ComponentInterface$updateHighlight,
 					$author$project$ComponentInterface$HighlightMessage,
 					model,
 					A2($author$project$Highlight$update, message, model.highl));
+			case 'PageMsg':
+				var message = msg.a;
+				return A3(
+					$author$project$ComponentInterface$updateNavBar,
+					$author$project$ComponentInterface$PageMsg,
+					model,
+					A2($author$project$PageElements$update, message, model.currPage));
+			case 'ScrollToElement':
+				var message = msg.a;
+				return _Utils_Tuple2(
+					model,
+					$author$project$ComponentInterface$scrollToElement(message));
 			default:
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
@@ -6307,27 +6320,13 @@ var $author$project$Main$updateInterface = F2(
 	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
-		switch (msg.$) {
-			case 'ComponentIntMessage':
-				var message = msg.a;
-				return A2(
-					$author$project$Main$updateInterface,
-					$author$project$Main$ComponentIntMessage,
-					A2($author$project$ComponentInterface$update, message, model));
-			case 'PageMsg':
-				var message = msg.a;
-				return A2($author$project$Main$navBarUpdate, model, message);
-			default:
-				var message = msg.a;
-				return _Utils_Tuple2(
-					model,
-					$author$project$Main$scrollToElement(message));
-		}
+		var message = msg.a;
+		return A2(
+			$author$project$Main$updateInterface,
+			$author$project$Main$ComponentIntMessage,
+			A2($author$project$ComponentInterface$update, message, model));
 	});
-var $author$project$Main$ScrollToElement = function (a) {
-	return {$: 'ScrollToElement', a: a};
-};
-var $elm$html$Html$a = _VirtualDom_node('a');
+var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$Attributes$stringProperty = F2(
 	function (key, string) {
 		return A2(
@@ -6335,22 +6334,22 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 			key,
 			$elm$json$Json$Encode$string(string));
 	});
-var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
-var $elm$html$Html$div = _VirtualDom_node('div');
-var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
-var $author$project$Main$About = {$: 'About'};
-var $author$project$Main$Contact = {$: 'Contact'};
-var $author$project$Main$Home = {$: 'Home'};
-var $author$project$Main$PageMsg = function (a) {
-	return {$: 'PageMsg', a: a};
+var $author$project$ComponentInterface$ScrollToElement = function (a) {
+	return {$: 'ScrollToElement', a: a};
 };
-var $elm$core$String$concat = function (strings) {
-	return A2($elm$core$String$join, '', strings);
+var $elm$html$Html$a = _VirtualDom_node('a');
+var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $author$project$Gallery$Next = function (a) {
+	return {$: 'Next', a: a};
 };
-var $elm$html$Html$li = _VirtualDom_node('li');
+var $author$project$Gallery$Prev = function (a) {
+	return {$: 'Prev', a: a};
+};
+var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$html$Html$img = _VirtualDom_node('img');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -6368,127 +6367,6 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$Main$navBarItem = F3(
-	function (model, label, page) {
-		var style = 'clickable';
-		return A2(
-			$elm$html$Html$li,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$a,
-					_List_fromArray(
-						[
-							_Utils_eq(model.currPage, label) ? $elm$html$Html$Attributes$class(
-							$elm$core$String$concat(
-								_List_fromArray(
-									[style, ' active']))) : $elm$html$Html$Attributes$class(style),
-							$elm$html$Html$Events$onClick(page)
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(label)
-						]))
-				]));
-	});
-var $elm$html$Html$ul = _VirtualDom_node('ul');
-var $author$project$Main$navBarView = function (model) {
-	return A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('navcontainer')
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$ul,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('navbar')
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$map,
-						$author$project$Main$PageMsg,
-						A3($author$project$Main$navBarItem, model, 'Home', $author$project$Main$Home)),
-						A2(
-						$elm$html$Html$map,
-						$author$project$Main$PageMsg,
-						A3($author$project$Main$navBarItem, model, 'About', $author$project$Main$About)),
-						A2(
-						$elm$html$Html$map,
-						$author$project$Main$PageMsg,
-						A3($author$project$Main$navBarItem, model, 'Contact', $author$project$Main$Contact))
-					]))
-			]));
-};
-var $elm$html$Html$br = _VirtualDom_node('br');
-var $author$project$Main$visibleClass = F3(
-	function (model, input, userclass) {
-		return _Utils_eq(model.currPage, input) ? $elm$html$Html$Attributes$class(userclass) : $elm$html$Html$Attributes$class(
-			$elm$core$String$concat(
-				_List_fromArray(
-					['notvisible ', userclass])));
-	});
-var $author$project$Main$paragprahView = F4(
-	function (model, context, elementID, content) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					A3($author$project$Main$visibleClass, model, context, 'textcontainer'),
-					$elm$html$Html$Attributes$id(elementID)
-				]),
-			_List_fromArray(
-				[
-					$elm$html$Html$text(content),
-					A2($elm$html$Html$br, _List_Nil, _List_Nil)
-				]));
-	});
-var $elm$html$Html$code = _VirtualDom_node('code');
-var $elm$html$Html$pre = _VirtualDom_node('pre');
-var $author$project$Main$snippetView = F2(
-	function (model, codesnippet) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('textcontainer')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$pre,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$code,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('language-elm line-numbers line-highlight')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text(codesnippet)
-								]))
-						])),
-					A2($elm$html$Html$br, _List_Nil, _List_Nil)
-				]));
-	});
-var $author$project$Gallery$Next = function (a) {
-	return {$: 'Next', a: a};
-};
-var $author$project$Gallery$Prev = function (a) {
-	return {$: 'Prev', a: a};
-};
-var $elm$html$Html$button = _VirtualDom_node('button');
-var $elm$html$Html$img = _VirtualDom_node('img');
 var $elm$html$Html$Attributes$src = function (url) {
 	return A2(
 		$elm$html$Html$Attributes$stringProperty,
@@ -6566,6 +6444,7 @@ var $author$project$Gallery$galleryView = F4(
 					_List_Nil)
 				]));
 	});
+var $elm$html$Html$h1 = _VirtualDom_node('h1');
 var $author$project$Files$highlight = $elm$core$Dict$fromList(
 	_List_fromArray(
 		[
@@ -6730,12 +6609,203 @@ var $author$project$Highlight$highlightView = F2(
 						]))
 				]));
 	});
+var $author$project$PageElements$About = {$: 'About'};
+var $author$project$PageElements$Contact = {$: 'Contact'};
+var $author$project$PageElements$Home = {$: 'Home'};
+var $elm$core$String$concat = function (strings) {
+	return A2($elm$core$String$join, '', strings);
+};
+var $elm$html$Html$li = _VirtualDom_node('li');
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
+var $author$project$PageElements$navBarItem = F3(
+	function (model, label, page) {
+		var style = 'clickable';
+		return A2(
+			$elm$html$Html$li,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							_Utils_eq(model, label) ? $elm$html$Html$Attributes$class(
+							$elm$core$String$concat(
+								_List_fromArray(
+									[style, ' active']))) : $elm$html$Html$Attributes$class(style),
+							$elm$html$Html$Events$onClick(page)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(label)
+						]))
+				]));
+	});
+var $elm$html$Html$ul = _VirtualDom_node('ul');
+var $author$project$PageElements$navBarView = function (model) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('navcontainer')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$ul,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('navbar')
+					]),
+				_List_fromArray(
+					[
+						A3($author$project$PageElements$navBarItem, model, 'Home', $author$project$PageElements$Home),
+						A3($author$project$PageElements$navBarItem, model, 'About', $author$project$PageElements$About),
+						A3($author$project$PageElements$navBarItem, model, 'Contact', $author$project$PageElements$Contact)
+					]))
+			]));
+};
+var $elm$html$Html$br = _VirtualDom_node('br');
+var $author$project$PageElements$visibleClass = F3(
+	function (model, input, userclass) {
+		return _Utils_eq(model, input) ? $elm$html$Html$Attributes$class(userclass) : $elm$html$Html$Attributes$class(
+			$elm$core$String$concat(
+				_List_fromArray(
+					['notvisible ', userclass])));
+	});
+var $author$project$PageElements$paragprahView = F4(
+	function (model, context, elementID, content) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A3($author$project$PageElements$visibleClass, model, context, 'textcontainer'),
+					$elm$html$Html$Attributes$id(elementID)
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text(content),
+					A2($elm$html$Html$br, _List_Nil, _List_Nil)
+				]));
+	});
+var $elm$html$Html$code = _VirtualDom_node('code');
+var $elm$html$Html$pre = _VirtualDom_node('pre');
+var $author$project$PageElements$snippetView = F2(
+	function (model, codesnippet) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('textcontainer')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$pre,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$code,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('language-elm line-numbers line-highlight')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(codesnippet)
+								]))
+						])),
+					A2($elm$html$Html$br, _List_Nil, _List_Nil)
+				]));
+	});
 var $author$project$ComponentInterface$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
 		_List_Nil,
 		_List_fromArray(
 			[
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('header')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$h1,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Práca s komponentmi v jazyku Elm')
+							])),
+						A2(
+						$elm$html$Html$map,
+						$author$project$ComponentInterface$PageMsg,
+						$author$project$PageElements$navBarView(model.currPage))
+					])),
+				A2(
+				$elm$html$Html$map,
+				$author$project$ComponentInterface$PageMsg,
+				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'first', 'text for home\n pagasdsajgajdgbkajdbgk jadbgkjadbgkjadbgjbdgakjgbkadjgbkjdabgkjdabgk jdagbkadjgbadkjgbdakgjadg bkadjgbkjdagbkjadgbkadjgbkadjgbkadjgbkjadbgkjadbgkdj abgkjdabgkjadbgjkadbgkjadgbdkabgdajgbkadjgbkjadgb kajdgbkadjgbkadjgbkadjgbkadjgbgkjdabdgkaj bgdakjalfjlaskdje')),
+				A2(
+				$elm$html$Html$map,
+				$author$project$ComponentInterface$PageMsg,
+				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'second', 'text for homepage2')),
+				A2(
+				$elm$html$Html$map,
+				$author$project$ComponentInterface$PageMsg,
+				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'second', 'text for homepage2')),
+				A2(
+				$elm$html$Html$map,
+				$author$project$ComponentInterface$PageMsg,
+				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'second', 'text for homepage2')),
+				A2(
+				$elm$html$Html$map,
+				$author$project$ComponentInterface$PageMsg,
+				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'second', 'text for homepage2')),
+				A2(
+				$elm$html$Html$map,
+				$author$project$ComponentInterface$PageMsg,
+				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'second', 'text for homepage2')),
+				A2(
+				$elm$html$Html$map,
+				$author$project$ComponentInterface$PageMsg,
+				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'second', 'text for homepage3')),
+				A2(
+				$elm$html$Html$map,
+				$author$project$ComponentInterface$PageMsg,
+				A4($author$project$PageElements$paragprahView, model.currPage, 'About', 'second', 'text for about')),
+				A2(
+				$elm$html$Html$map,
+				$author$project$ComponentInterface$PageMsg,
+				A4($author$project$PageElements$paragprahView, model.currPage, 'Contact', 'second', 'text for contact')),
+				A2(
+				$elm$html$Html$map,
+				$author$project$ComponentInterface$PageMsg,
+				A2($author$project$PageElements$snippetView, model.currPage, 'div [class \'myclass\'] [\n text \'mytext\'\n , button [class \'buttonclass\'] []\n]')),
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						A3($author$project$PageElements$visibleClass, model.currPage, 'Home', 'textcontainer')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$map,
+						$author$project$ComponentInterface$GalleryMessage,
+						A4(
+							$author$project$Gallery$galleryView,
+							model.nums,
+							$author$project$Files$pics,
+							_List_fromArray(
+								['left', 'border']),
+							_List_fromArray(
+								['pic', 'zoomable'])))
+					])),
 				A2(
 				$elm$html$Html$map,
 				$author$project$ComponentInterface$GalleryMessage,
@@ -6750,7 +6820,19 @@ var $author$project$ComponentInterface$view = function (model) {
 				A2(
 				$elm$html$Html$map,
 				$author$project$ComponentInterface$HighlightMessage,
-				A2($author$project$Highlight$highlightView, model.highl, $author$project$Files$highlight))
+				A2($author$project$Highlight$highlightView, model.highl, $author$project$Files$highlight)),
+				A2(
+				$elm$html$Html$a,
+				_List_fromArray(
+					[
+						$elm$html$Html$Events$onClick(
+						$author$project$ComponentInterface$ScrollToElement('top')),
+						$elm$html$Html$Attributes$class('clickable')
+					]),
+				_List_fromArray(
+					[
+						$elm$html$Html$text('Back To Top')
+					]))
 			]));
 };
 var $author$project$Main$view = function (model) {
@@ -6770,48 +6852,9 @@ var $author$project$Main$view = function (model) {
 					]),
 				_List_Nil),
 				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('header')
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h1,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Práca s komponentmi v jazyku Elm')
-							])),
-						$author$project$Main$navBarView(model)
-					])),
-				A4($author$project$Main$paragprahView, model, 'Home', 'first', 'text for home\n pagasdsajgajdgbkajdbgk jadbgkjadbgkjadbgjbdgakjgbkadjgbkjdabgkjdabgk jdagbkadjgbadkjgbdakgjadg bkadjgbkjdagbkjadgbkadjgbkadjgbkadjgbkjadbgkjadbgkdj abgkjdabgkjadbgjkadbgkjadgbdkabgdajgbkadjgbkjadgb kajdgbkadjgbkadjgbkadjgbkadjgbgkjdabdgkaj bgdakjalfjlaskdje'),
-				A4($author$project$Main$paragprahView, model, 'Home', 'second', 'text for homepage2'),
-				A4($author$project$Main$paragprahView, model, 'Home', 'second', 'text for homepage2'),
-				A4($author$project$Main$paragprahView, model, 'Home', 'second', 'text for homepage2'),
-				A4($author$project$Main$paragprahView, model, 'Home', 'second', 'text for homepage2'),
-				A4($author$project$Main$paragprahView, model, 'Home', 'second', 'text for homepage2'),
-				A4($author$project$Main$paragprahView, model, 'Home', 'second', 'text for homepage3'),
-				A4($author$project$Main$paragprahView, model, 'About', 'second', 'text for about'),
-				A4($author$project$Main$paragprahView, model, 'Contact', 'second', 'text for contact'),
-				A2($author$project$Main$snippetView, model, 'div [class \'myclass\'] [\n text \'mytext\'\n , button [class \'buttonclass\'] []\n]'),
-				A2(
 				$elm$html$Html$map,
 				$author$project$Main$ComponentIntMessage,
-				$author$project$ComponentInterface$view(model)),
-				A2(
-				$elm$html$Html$a,
-				_List_fromArray(
-					[
-						$elm$html$Html$Events$onClick(
-						$author$project$Main$ScrollToElement('top')),
-						$elm$html$Html$Attributes$class('clickable')
-					]),
-				_List_fromArray(
-					[
-						$elm$html$Html$text('Back To Top')
-					]))
+				$author$project$ComponentInterface$view(model))
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(
