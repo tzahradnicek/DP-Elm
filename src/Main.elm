@@ -46,11 +46,12 @@ update msg model =
         ComponentIntMessage message ->
             updateInterface ComponentIntMessage ( ComponentInterface.update message model)
 
+-- mapping the combined update function from the component interface
 updateInterface : (subMsg -> Msg) -> ( ComponentInterface.Model, Cmd subMsg ) -> ( Model, Cmd Msg )
 updateInterface toMsg ( subModel, subCmd ) =
     ( subModel, Cmd.map toMsg subCmd)
 
-
+-- subscription mapping function from the component interface
 componentSubcriptions : Model -> Sub Msg
 componentSubcriptions model = 
     Sub.map ComponentIntMessage (ComponentInterface.subscriptions model)

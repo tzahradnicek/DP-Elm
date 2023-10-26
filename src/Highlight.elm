@@ -9,26 +9,26 @@ type alias Model =
     String
 
 type Msg = One
-        | Two
-        | Three
-        | Four
+    | Two
+    | Three
+    | Four
 
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model =
-  case msg of
-    One ->
-        ( "one", Cmd.none)
-    Two ->
-        ( "two", Cmd.none)
-    Three ->
-        ( "three", Cmd.none)
-    Four ->
-        ( "four", Cmd.none)
+    case msg of
+        One ->
+            ( "one", Cmd.none)
+        Two ->
+            ( "two", Cmd.none)
+        Three ->
+            ( "three", Cmd.none)
+        Four ->
+            ( "four", Cmd.none)
 
 
 
-highlightView : Model -> Dict String String -> Html Msg
-highlightView model picDict =
+view : Model -> Dict String String -> Html Msg
+view model picDict =
     div [] [
         div [ class "row" ] [
             button [ onClick One, class "column button-img" ] [ img [src (case Dict.get "one" picDict of

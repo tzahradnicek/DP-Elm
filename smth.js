@@ -6337,19 +6337,155 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
+var $author$project$ComponentInterface$GridMessage = function (a) {
+	return {$: 'GridMessage', a: a};
+};
 var $author$project$ComponentInterface$ScrollToElement = function (a) {
 	return {$: 'ScrollToElement', a: a};
 };
 var $elm$html$Html$a = _VirtualDom_node('a');
+var $elm$html$Html$br = _VirtualDom_node('br');
+var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
+var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
 var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
-var $author$project$Gallery$Next = function (a) {
-	return {$: 'Next', a: a};
+var $elm$core$String$concat = function (strings) {
+	return A2($elm$core$String$join, '', strings);
 };
-var $author$project$Gallery$Prev = function (a) {
-	return {$: 'Prev', a: a};
+var $author$project$PageElements$visibleClass = F3(
+	function (model, input, userclass) {
+		return _Utils_eq(model, input) ? $elm$html$Html$Attributes$class(userclass) : $elm$html$Html$Attributes$class(
+			$elm$core$String$concat(
+				_List_fromArray(
+					['notvisible ', userclass])));
+	});
+var $author$project$PageElements$paragprahView = F4(
+	function (model, context, elementID, content) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A3($author$project$PageElements$visibleClass, model, context, 'textcontainer'),
+					$elm$html$Html$Attributes$id(elementID)
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text(content),
+					A2($elm$html$Html$br, _List_Nil, _List_Nil)
+				]));
+	});
+var $author$project$PageElements$bubbleView = function (model) {
+	return A2(
+		$elm$html$Html$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A4($author$project$PageElements$paragprahView, model, 'Home', 'first', 'text for home\n pagasdsajgajdgbkajdbgk jadbgkjadbgkjadbgjbdgakjgbkadjgbkjdabgkjdabgk jdagbkadjgbadkjgbdakgjadg bkadjgbkjdagbkjadgbkadjgbkadjgbkadjgbkjadbgkjadbgkdj abgkjdabgkjadbgjkadbgkjadgbdkabgdajgbkadjgbkjadgb kajdgbkadjgbkadjgbkadjgbkadjgbgkjdabdgkaj bgdakjalfjlaskdje'),
+				A4($author$project$PageElements$paragprahView, model, 'Home', 'second', 'text for homepage2'),
+				A4($author$project$PageElements$paragprahView, model, 'Home', 'second', 'text for homepage2'),
+				A4($author$project$PageElements$paragprahView, model, 'Home', 'second', 'text for homepage2'),
+				A4($author$project$PageElements$paragprahView, model, 'Home', 'second', 'text for homepage2'),
+				A4($author$project$PageElements$paragprahView, model, 'Home', 'second', 'text for homepage2'),
+				A4($author$project$PageElements$paragprahView, model, 'Home', 'second', 'text for homepage3'),
+				A4($author$project$PageElements$paragprahView, model, 'About', 'second', 'text for about'),
+				A4($author$project$PageElements$paragprahView, model, 'Contact', 'second', 'text for contact')
+			]));
 };
-var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$core$List$head = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(x);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
 var $elm$html$Html$img = _VirtualDom_node('img');
+var $elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
+var $elm$core$List$tail = function (list) {
+	if (list.b) {
+		var x = list.a;
+		var xs = list.b;
+		return $elm$core$Maybe$Just(xs);
+	} else {
+		return $elm$core$Maybe$Nothing;
+	}
+};
+var $author$project$Grid$generateGrid = function (list) {
+	var secondElem = function () {
+		var _v1 = $elm$core$List$tail(list);
+		if (_v1.$ === 'Just') {
+			var rest = _v1.a;
+			var _v2 = $elm$core$List$head(rest);
+			if (_v2.$ === 'Just') {
+				var second = _v2.a;
+				return second;
+			} else {
+				return '';
+			}
+		} else {
+			return '';
+		}
+	}();
+	var firstElem = function () {
+		var _v0 = $elm$core$List$head(list);
+		if (_v0.$ === 'Just') {
+			var first = _v0.a;
+			return first;
+		} else {
+			return '';
+		}
+	}();
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class(
+				$elm$core$String$concat(
+					_List_fromArray(
+						['grid_item ', secondElem])))
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$img,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$src(
+						$elm$core$String$concat(
+							_List_fromArray(
+								['img/', firstElem]))),
+						$elm$html$Html$Attributes$class('grid_img')
+					]),
+				_List_Nil)
+			]));
+};
+var $author$project$Grid$gridView = function (listOfLists) {
+	return A2(
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('grid')
+			]),
+		A2($elm$core$List$map, $author$project$Grid$generateGrid, listOfLists));
+};
+var $elm$html$Html$h1 = _VirtualDom_node('h1');
+var $author$project$Files$highlight = $elm$core$Dict$fromList(
+	_List_fromArray(
+		[
+			_Utils_Tuple2('one', 'img/cat.png'),
+			_Utils_Tuple2('two', 'img/dog.png'),
+			_Utils_Tuple2('three', 'img/donkey.png'),
+			_Utils_Tuple2('four', 'img/monkey.png')
+		]));
+var $author$project$PageElements$About = {$: 'About'};
+var $author$project$PageElements$Contact = {$: 'Contact'};
+var $author$project$PageElements$Home = {$: 'Home'};
+var $elm$html$Html$li = _VirtualDom_node('li');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -6367,13 +6503,93 @@ var $elm$html$Html$Events$onClick = function (msg) {
 		'click',
 		$elm$json$Json$Decode$succeed(msg));
 };
-var $elm$html$Html$Attributes$src = function (url) {
+var $author$project$PageElements$navBarItem = F3(
+	function (model, label, page) {
+		var style = 'clickable';
+		return A2(
+			$elm$html$Html$li,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$a,
+					_List_fromArray(
+						[
+							_Utils_eq(model, label) ? $elm$html$Html$Attributes$class(
+							$elm$core$String$concat(
+								_List_fromArray(
+									[style, ' active']))) : $elm$html$Html$Attributes$class(style),
+							$elm$html$Html$Events$onClick(page)
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(label)
+						]))
+				]));
+	});
+var $elm$html$Html$ul = _VirtualDom_node('ul');
+var $author$project$PageElements$navBarView = function (model) {
 	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'src',
-		_VirtualDom_noJavaScriptOrHtmlUri(url));
+		$elm$html$Html$div,
+		_List_fromArray(
+			[
+				$elm$html$Html$Attributes$class('navcontainer')
+			]),
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$ul,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('navbar')
+					]),
+				_List_fromArray(
+					[
+						A3($author$project$PageElements$navBarItem, model, 'Home', $author$project$PageElements$Home),
+						A3($author$project$PageElements$navBarItem, model, 'About', $author$project$PageElements$About),
+						A3($author$project$PageElements$navBarItem, model, 'Contact', $author$project$PageElements$Contact)
+					]))
+			]));
 };
-var $author$project$Gallery$galleryView = F4(
+var $elm$html$Html$code = _VirtualDom_node('code');
+var $elm$html$Html$pre = _VirtualDom_node('pre');
+var $author$project$PageElements$snippetView = F2(
+	function (model, codesnippet) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('textcontainer')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$pre,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$code,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('language-elm line-numbers line-highlight')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(codesnippet)
+								]))
+						])),
+					A2($elm$html$Html$br, _List_Nil, _List_Nil)
+				]));
+	});
+var $author$project$Gallery$Next = function (a) {
+	return {$: 'Next', a: a};
+};
+var $author$project$Gallery$Prev = function (a) {
+	return {$: 'Prev', a: a};
+};
+var $elm$html$Html$button = _VirtualDom_node('button');
+var $author$project$Gallery$view = F4(
 	function (model, picDict, picPosition, picStyle) {
 		return A2(
 			$elm$html$Html$div,
@@ -6444,20 +6660,11 @@ var $author$project$Gallery$galleryView = F4(
 					_List_Nil)
 				]));
 	});
-var $elm$html$Html$h1 = _VirtualDom_node('h1');
-var $author$project$Files$highlight = $elm$core$Dict$fromList(
-	_List_fromArray(
-		[
-			_Utils_Tuple2('one', 'img/cat.png'),
-			_Utils_Tuple2('two', 'img/dog.png'),
-			_Utils_Tuple2('three', 'img/donkey.png'),
-			_Utils_Tuple2('four', 'img/monkey.png')
-		]));
 var $author$project$Highlight$Four = {$: 'Four'};
 var $author$project$Highlight$One = {$: 'One'};
 var $author$project$Highlight$Three = {$: 'Three'};
 var $author$project$Highlight$Two = {$: 'Two'};
-var $author$project$Highlight$highlightView = F2(
+var $author$project$Highlight$view = F2(
 	function (model, picDict) {
 		return A2(
 			$elm$html$Html$div,
@@ -6609,117 +6816,6 @@ var $author$project$Highlight$highlightView = F2(
 						]))
 				]));
 	});
-var $author$project$PageElements$About = {$: 'About'};
-var $author$project$PageElements$Contact = {$: 'Contact'};
-var $author$project$PageElements$Home = {$: 'Home'};
-var $elm$core$String$concat = function (strings) {
-	return A2($elm$core$String$join, '', strings);
-};
-var $elm$html$Html$li = _VirtualDom_node('li');
-var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
-var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $author$project$PageElements$navBarItem = F3(
-	function (model, label, page) {
-		var style = 'clickable';
-		return A2(
-			$elm$html$Html$li,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$a,
-					_List_fromArray(
-						[
-							_Utils_eq(model, label) ? $elm$html$Html$Attributes$class(
-							$elm$core$String$concat(
-								_List_fromArray(
-									[style, ' active']))) : $elm$html$Html$Attributes$class(style),
-							$elm$html$Html$Events$onClick(page)
-						]),
-					_List_fromArray(
-						[
-							$elm$html$Html$text(label)
-						]))
-				]));
-	});
-var $elm$html$Html$ul = _VirtualDom_node('ul');
-var $author$project$PageElements$navBarView = function (model) {
-	return A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('navcontainer')
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$ul,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('navbar')
-					]),
-				_List_fromArray(
-					[
-						A3($author$project$PageElements$navBarItem, model, 'Home', $author$project$PageElements$Home),
-						A3($author$project$PageElements$navBarItem, model, 'About', $author$project$PageElements$About),
-						A3($author$project$PageElements$navBarItem, model, 'Contact', $author$project$PageElements$Contact)
-					]))
-			]));
-};
-var $elm$html$Html$br = _VirtualDom_node('br');
-var $author$project$PageElements$visibleClass = F3(
-	function (model, input, userclass) {
-		return _Utils_eq(model, input) ? $elm$html$Html$Attributes$class(userclass) : $elm$html$Html$Attributes$class(
-			$elm$core$String$concat(
-				_List_fromArray(
-					['notvisible ', userclass])));
-	});
-var $author$project$PageElements$paragprahView = F4(
-	function (model, context, elementID, content) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					A3($author$project$PageElements$visibleClass, model, context, 'textcontainer'),
-					$elm$html$Html$Attributes$id(elementID)
-				]),
-			_List_fromArray(
-				[
-					$elm$html$Html$text(content),
-					A2($elm$html$Html$br, _List_Nil, _List_Nil)
-				]));
-	});
-var $elm$html$Html$code = _VirtualDom_node('code');
-var $elm$html$Html$pre = _VirtualDom_node('pre');
-var $author$project$PageElements$snippetView = F2(
-	function (model, codesnippet) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('textcontainer')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$pre,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$code,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('language-elm line-numbers line-highlight')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text(codesnippet)
-								]))
-						])),
-					A2($elm$html$Html$br, _List_Nil, _List_Nil)
-				]));
-	});
 var $author$project$ComponentInterface$view = function (model) {
 	return A2(
 		$elm$html$Html$div,
@@ -6749,39 +6845,7 @@ var $author$project$ComponentInterface$view = function (model) {
 				A2(
 				$elm$html$Html$map,
 				$author$project$ComponentInterface$PageMsg,
-				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'first', 'text for home\n pagasdsajgajdgbkajdbgk jadbgkjadbgkjadbgjbdgakjgbkadjgbkjdabgkjdabgk jdagbkadjgbadkjgbdakgjadg bkadjgbkjdagbkjadgbkadjgbkadjgbkadjgbkjadbgkjadbgkdj abgkjdabgkjadbgjkadbgkjadgbdkabgdajgbkadjgbkjadgb kajdgbkadjgbkadjgbkadjgbkadjgbgkjdabdgkaj bgdakjalfjlaskdje')),
-				A2(
-				$elm$html$Html$map,
-				$author$project$ComponentInterface$PageMsg,
-				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'second', 'text for homepage2')),
-				A2(
-				$elm$html$Html$map,
-				$author$project$ComponentInterface$PageMsg,
-				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'second', 'text for homepage2')),
-				A2(
-				$elm$html$Html$map,
-				$author$project$ComponentInterface$PageMsg,
-				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'second', 'text for homepage2')),
-				A2(
-				$elm$html$Html$map,
-				$author$project$ComponentInterface$PageMsg,
-				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'second', 'text for homepage2')),
-				A2(
-				$elm$html$Html$map,
-				$author$project$ComponentInterface$PageMsg,
-				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'second', 'text for homepage2')),
-				A2(
-				$elm$html$Html$map,
-				$author$project$ComponentInterface$PageMsg,
-				A4($author$project$PageElements$paragprahView, model.currPage, 'Home', 'second', 'text for homepage3')),
-				A2(
-				$elm$html$Html$map,
-				$author$project$ComponentInterface$PageMsg,
-				A4($author$project$PageElements$paragprahView, model.currPage, 'About', 'second', 'text for about')),
-				A2(
-				$elm$html$Html$map,
-				$author$project$ComponentInterface$PageMsg,
-				A4($author$project$PageElements$paragprahView, model.currPage, 'Contact', 'second', 'text for contact')),
+				$author$project$PageElements$bubbleView(model.currPage)),
 				A2(
 				$elm$html$Html$map,
 				$author$project$ComponentInterface$PageMsg,
@@ -6798,7 +6862,7 @@ var $author$project$ComponentInterface$view = function (model) {
 						$elm$html$Html$map,
 						$author$project$ComponentInterface$GalleryMessage,
 						A4(
-							$author$project$Gallery$galleryView,
+							$author$project$Gallery$view,
 							model.nums,
 							$author$project$Files$pics,
 							_List_fromArray(
@@ -6807,10 +6871,32 @@ var $author$project$ComponentInterface$view = function (model) {
 								['pic', 'zoomable'])))
 					])),
 				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						A3($author$project$PageElements$visibleClass, model.currPage, 'Home', 'textcontainer')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$map,
+						$author$project$ComponentInterface$GridMessage,
+						$author$project$Grid$gridView(
+							_List_fromArray(
+								[
+									_List_fromArray(
+									['monkey.png', 'slowmo']),
+									_List_fromArray(
+									['donkey.png', 'bright']),
+									_List_fromArray(
+									['cat.png', 'zoomable'])
+								])))
+					])),
+				A2(
 				$elm$html$Html$map,
 				$author$project$ComponentInterface$GalleryMessage,
 				A4(
-					$author$project$Gallery$galleryView,
+					$author$project$Gallery$view,
 					model.nums,
 					$author$project$Files$pics,
 					_List_fromArray(
@@ -6820,7 +6906,7 @@ var $author$project$ComponentInterface$view = function (model) {
 				A2(
 				$elm$html$Html$map,
 				$author$project$ComponentInterface$HighlightMessage,
-				A2($author$project$Highlight$highlightView, model.highl, $author$project$Files$highlight)),
+				A2($author$project$Highlight$view, model.highl, $author$project$Files$highlight)),
 				A2(
 				$elm$html$Html$a,
 				_List_fromArray(

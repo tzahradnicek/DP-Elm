@@ -3,7 +3,6 @@ module Grid exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Dict exposing (Dict)
 
 type alias Model = 
     { items : List String }
@@ -26,7 +25,7 @@ generateGrid list =
     in
         div [ class (String.concat ["grid_item ", secondElem])] [
             img [src (String.concat ["img/", firstElem]), class "grid_img"] []
-   ]
+        ]
 
 gridView : List (List String) -> Html Msg
 gridView listOfLists =

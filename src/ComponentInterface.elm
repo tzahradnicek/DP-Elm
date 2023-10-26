@@ -11,7 +11,7 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Time
 
-
+-- the model in our interface has to be the same as in main
 type alias Model = 
     {
         nums: Dict String Int
@@ -28,10 +28,12 @@ type Msg
     | ComponentIntMessage Msg
 
 
+-- define which dictionaries to loop through using subscriptions
 keysToUpdate : List (String, Int)
 keysToUpdate =
     [ ("pics", Gallery.dictSize pics), ("pics2", Gallery.dictSize pics), ("pics3", Gallery.dictSize pics3) ]
 
+-- combined update for all incoming components to the interface
 update : Msg -> Model -> (Model, Cmd Msg)
 update msg model = 
     case msg of
@@ -46,6 +48,7 @@ update msg model =
         _ ->
             (model, Cmd.none)
 
+-- mapping the component update functions to the component update function
 updateGallery : (subMsg -> Msg) -> Model -> ( Gallery.Model, Cmd subMsg ) -> ( Model, Cmd Msg )
 updateGallery toMsg model ( subModel, subCmd ) =
     ( {model | nums = subModel}
@@ -71,22 +74,17 @@ view model =
         div [class "header"] [
             h1 [] [ text "Práca s komponentmi v jazyku Elm"] 
             , Html.map PageMsg (navBarView model.currPage)
-            ] 
-        , Html.map PageMsg (paragprahView model.currPage "Home" "first" "text for home\n pagasdsajgajdgbkajdbgk jadbgkjadbgkjadbgjbdgakjgbkadjgbkjdabgkjdabgk jdagbkadjgbadkjgbdakgjadg bkadjgbkjdagbkjadgbkadjgbkadjgbkadjgbkjadbgkjadbgkdj abgkjdabgkjadbgjkadbgkjadgbdkabgdajgbkadjgbkjadgb kajdgbkadjgbkadjgbkadjgbkadjgbgkjdabdgkaj bgdakjalfjlaskdje")
-        , Html.map PageMsg (paragprahView model.currPage "Home" "second" "text for homepage2")
-        , Html.map PageMsg (paragprahView model.currPage "Home" "second" "text for homepage2")
-        , Html.map PageMsg (paragprahView model.currPage "Home" "second" "text for homepage2")
-        , Html.map PageMsg (paragprahView model.currPage "Home" "second" "text for homepage2")
-        , Html.map PageMsg (paragprahView model.currPage "Home" "second" "text for homepage2")
-        , Html.map PageMsg (paragprahView model.currPage "Home" "second" "text for homepage3")
-        , Html.map PageMsg (paragprahView model.currPage "About" "second" "text for about")
-        , Html.map PageMsg (paragprahView model.currPage "Contact" "second" "text for contact")
+        ] 
+        , Html.map PageMsg (bubbleView model.currPage)
         , Html.map PageMsg (snippetView model.currPage "div [class 'myclass'] [\n text 'mytext'\n , button [class 'buttonclass'] []\n]")
         , div [visibleClass model.currPage "Home" "textcontainer"] [
-            Html.map GalleryMessage (Gallery.galleryView model.nums pics ["left", "border"] ["pic", "zoomable"])
-        ]   
-        , Html.map GalleryMessage (Gallery.galleryView model.nums pics ["left", "border"] ["pic", "zoomable"])
-        , Html.map HighlightMessage (Highlight.highlightView model.highl highlight)
+            Html.map GalleryMessage (Gallery.view model.nums pics ["left", "border"] ["pic", "zoomable"])
+        ] 
+        , div [visibleClass model.currPage "Home" "textcontainer"] [
+            Html.map GridMessage (Grid.gridView [["monkey.png", "slowmo"], ["donkey.png", "bright"], ["cat.png", "zoomable"]])
+        ]
+        , Html.map GalleryMessage (Gallery.view model.nums pics ["left", "border"] ["pic", "zoomable"])
+        , Html.map HighlightMessage (Highlight.view model.highl highlight)
         , a [ onClick (ScrollToElement "top"), class "clickable"] [text "Back To Top"]
     ]
 
