@@ -5,19 +5,11 @@ import Gallery exposing(..)
 import Highlight exposing(..)
 import Grid exposing(..)
 import PageElements exposing(..)
-import Files exposing(pics, pics2, pics3, highlight)
+import Constants exposing(pics, pics2, pics3, highlight, Model)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Time
-
--- the model in our interface has to be the same as in main
-type alias Model = 
-    {
-        nums: Dict String Int
-        ,highl: String
-        ,currPage: String
-    }
 
 type Msg
     = GalleryMessage Gallery.Msg
@@ -83,8 +75,8 @@ view model =
         , div [visibleClass model.currPage "Home" "textcontainer"] [
             Html.map GridMessage (Grid.gridView [["monkey.png", "slowmo"], ["donkey.png", "bright"], ["cat.png", "zoomable"]])
         ]
-        , Html.map GalleryMessage (Gallery.view model.nums pics ["left", "border"] ["pic", "zoomable"])
-        , Html.map HighlightMessage (Highlight.view model.highl highlight)
+        -- , Html.map GalleryMessage (Gallery.view model.nums pics ["left", "border"] ["pic", "zoomable"])
+        -- , Html.map HighlightMessage (Highlight.view model.highl highlight)
         , a [ onClick (ScrollToElement "top"), class "clickable"] [text "Back To Top"]
     ]
 

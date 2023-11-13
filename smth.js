@@ -5656,7 +5656,7 @@ var $elm$core$Dict$fromList = function (assocs) {
 		$elm$core$Dict$empty,
 		assocs);
 };
-var $author$project$Main$nums = $elm$core$Dict$fromList(
+var $author$project$Constants$nums = $elm$core$Dict$fromList(
 	_List_fromArray(
 		[
 			_Utils_Tuple2('pics', 1),
@@ -5665,7 +5665,7 @@ var $author$project$Main$nums = $elm$core$Dict$fromList(
 		]));
 var $author$project$Main$initialModel = function (_v0) {
 	return _Utils_Tuple2(
-		{currPage: 'Home', highl: 'two', nums: $author$project$Main$nums},
+		{currPage: 'Home', highl: 'two', nums: $author$project$Constants$nums},
 		$elm$core$Platform$Cmd$none);
 };
 var $author$project$ComponentInterface$HighlightMessage = function (a) {
@@ -5697,7 +5697,7 @@ var $elm$core$Dict$size = function (dict) {
 var $author$project$Gallery$dictSize = function (dict) {
 	return $elm$core$Dict$size(dict) - 2;
 };
-var $author$project$Files$pics = $elm$core$Dict$fromList(
+var $author$project$Constants$pics = $elm$core$Dict$fromList(
 	_List_fromArray(
 		[
 			_Utils_Tuple2(0, 'pics'),
@@ -5706,7 +5706,7 @@ var $author$project$Files$pics = $elm$core$Dict$fromList(
 			_Utils_Tuple2(3, 'img/monkey.png'),
 			_Utils_Tuple2(4, 'img/donkey.png')
 		]));
-var $author$project$Files$pics3 = $elm$core$Dict$fromList(
+var $author$project$Constants$pics3 = $elm$core$Dict$fromList(
 	_List_fromArray(
 		[
 			_Utils_Tuple2(0, 'pics3'),
@@ -5718,13 +5718,13 @@ var $author$project$ComponentInterface$keysToUpdate = _List_fromArray(
 	[
 		_Utils_Tuple2(
 		'pics',
-		$author$project$Gallery$dictSize($author$project$Files$pics)),
+		$author$project$Gallery$dictSize($author$project$Constants$pics)),
 		_Utils_Tuple2(
 		'pics2',
-		$author$project$Gallery$dictSize($author$project$Files$pics)),
+		$author$project$Gallery$dictSize($author$project$Constants$pics)),
 		_Utils_Tuple2(
 		'pics3',
-		$author$project$Gallery$dictSize($author$project$Files$pics3))
+		$author$project$Gallery$dictSize($author$project$Constants$pics3))
 	]);
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $author$project$ComponentInterface$scrollToElement = _Platform_outgoingPort('scrollToElement', $elm$json$Json$Encode$string);
@@ -6474,7 +6474,7 @@ var $author$project$Grid$gridView = function (listOfLists) {
 		A2($elm$core$List$map, $author$project$Grid$generateGrid, listOfLists));
 };
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
-var $author$project$Files$highlight = $elm$core$Dict$fromList(
+var $author$project$Constants$highlight = $elm$core$Dict$fromList(
 	_List_fromArray(
 		[
 			_Utils_Tuple2('one', 'img/cat.png'),
@@ -6864,7 +6864,7 @@ var $author$project$ComponentInterface$view = function (model) {
 						A4(
 							$author$project$Gallery$view,
 							model.nums,
-							$author$project$Files$pics,
+							$author$project$Constants$pics,
 							_List_fromArray(
 								['left', 'border']),
 							_List_fromArray(
@@ -6894,19 +6894,8 @@ var $author$project$ComponentInterface$view = function (model) {
 					])),
 				A2(
 				$elm$html$Html$map,
-				$author$project$ComponentInterface$GalleryMessage,
-				A4(
-					$author$project$Gallery$view,
-					model.nums,
-					$author$project$Files$pics,
-					_List_fromArray(
-						['left', 'border']),
-					_List_fromArray(
-						['pic', 'zoomable']))),
-				A2(
-				$elm$html$Html$map,
 				$author$project$ComponentInterface$HighlightMessage,
-				A2($author$project$Highlight$view, model.highl, $author$project$Files$highlight)),
+				A2($author$project$Highlight$view, model.highl, $author$project$Constants$highlight)),
 				A2(
 				$elm$html$Html$a,
 				_List_fromArray(

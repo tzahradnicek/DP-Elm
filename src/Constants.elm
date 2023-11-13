@@ -1,5 +1,21 @@
-module Files exposing (..)
+module Constants exposing (..)
 import Dict exposing (Dict)
+
+type alias Model = 
+    {
+        nums: Dict String Int
+        ,highl: String
+        ,currPage: String
+    }
+
+
+nums: Dict String Int
+nums = Dict.fromList
+    [
+        ("pics", 1)
+        ,("pics2", 1)
+        ,("pics3", 1)
+    ]
 
 pics : Dict Int String
 pics = Dict.fromList

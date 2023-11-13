@@ -5,24 +5,10 @@ import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Dict exposing (Dict)
 import ComponentInterface exposing(..)
+import Constants exposing (Model, nums)
 
 type Msg
     = ComponentIntMessage ComponentInterface.Msg
-
-type alias Model = 
-    {
-        nums: Dict String Int
-        ,highl: String
-        ,currPage: String
-    }
-
-nums: Dict String Int
-nums = Dict.fromList
-    [
-        ("pics", 1)
-        ,("pics2", 1)
-        ,("pics3", 1)
-    ]
 
 initialModel : () -> (Model, Cmd Msg)
 initialModel _ = 
@@ -47,7 +33,7 @@ update msg model =
             updateInterface ComponentIntMessage ( ComponentInterface.update message model)
 
 -- mapping the combined update function from the component interface
-updateInterface : (subMsg -> Msg) -> ( ComponentInterface.Model, Cmd subMsg ) -> ( Model, Cmd Msg )
+updateInterface : (subMsg -> Msg) -> ( Model, Cmd subMsg ) -> ( Model, Cmd Msg )
 updateInterface toMsg ( subModel, subCmd ) =
     ( subModel, Cmd.map toMsg subCmd)
 
