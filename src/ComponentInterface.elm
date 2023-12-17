@@ -60,8 +60,8 @@ updateNavBar toMsg model ( subModel, subCmd ) =
     )
 
 
-view : Model -> Html Msg 
-view model = 
+viewOne : Model -> Html Msg 
+viewOne model = 
     div [] [
         div [class "header"] [
             h1 [] [ text "Práca s komponentmi v jazyku Elm"] 
@@ -75,8 +75,16 @@ view model =
         , div [visibleClass model.currPage "Home" "textcontainer"] [
             Html.map GridMessage (Grid.gridView [["monkey.png", "slowmo"], ["donkey.png", "bright"], ["cat.png", "zoomable"]])
         ]
-        -- , Html.map GalleryMessage (Gallery.view model.nums pics ["left", "border"] ["pic", "zoomable"])
-        -- , Html.map HighlightMessage (Highlight.view model.highl highlight)
+    ]
+
+viewTwo : Model -> Html Msg 
+viewTwo model = 
+    div [] [
+        Html.map PageMsg (bubbleView model.currPage)
+        , Html.map PageMsg (snippetView model.currPage "div [class 'myclass'] [\n text 'mytext'\n , button [class 'buttonclass'] []\n]")
+        , div [visibleClass model.currPage "Home" "textcontainer"] [
+            Html.map HighlightMessage (Highlight.view model.highl highlight)
+        ]
         , a [ onClick (ScrollToElement "top"), class "clickable"] [text "Back To Top"]
     ]
 

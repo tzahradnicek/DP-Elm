@@ -6340,10 +6340,6 @@ var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
 var $author$project$ComponentInterface$GridMessage = function (a) {
 	return {$: 'GridMessage', a: a};
 };
-var $author$project$ComponentInterface$ScrollToElement = function (a) {
-	return {$: 'ScrollToElement', a: a};
-};
-var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$html$Html$br = _VirtualDom_node('br');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
@@ -6474,17 +6470,10 @@ var $author$project$Grid$gridView = function (listOfLists) {
 		A2($elm$core$List$map, $author$project$Grid$generateGrid, listOfLists));
 };
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
-var $author$project$Constants$highlight = $elm$core$Dict$fromList(
-	_List_fromArray(
-		[
-			_Utils_Tuple2('one', 'img/cat.png'),
-			_Utils_Tuple2('two', 'img/dog.png'),
-			_Utils_Tuple2('three', 'img/donkey.png'),
-			_Utils_Tuple2('four', 'img/monkey.png')
-		]));
 var $author$project$PageElements$About = {$: 'About'};
 var $author$project$PageElements$Contact = {$: 'Contact'};
 var $author$project$PageElements$Home = {$: 'Home'};
+var $elm$html$Html$a = _VirtualDom_node('a');
 var $elm$html$Html$li = _VirtualDom_node('li');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
@@ -6660,6 +6649,95 @@ var $author$project$Gallery$view = F4(
 					_List_Nil)
 				]));
 	});
+var $author$project$ComponentInterface$viewOne = function (model) {
+	return A2(
+		$elm$html$Html$div,
+		_List_Nil,
+		_List_fromArray(
+			[
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						$elm$html$Html$Attributes$class('header')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$h1,
+						_List_Nil,
+						_List_fromArray(
+							[
+								$elm$html$Html$text('Práca s komponentmi v jazyku Elm')
+							])),
+						A2(
+						$elm$html$Html$map,
+						$author$project$ComponentInterface$PageMsg,
+						$author$project$PageElements$navBarView(model.currPage))
+					])),
+				A2(
+				$elm$html$Html$map,
+				$author$project$ComponentInterface$PageMsg,
+				$author$project$PageElements$bubbleView(model.currPage)),
+				A2(
+				$elm$html$Html$map,
+				$author$project$ComponentInterface$PageMsg,
+				A2($author$project$PageElements$snippetView, model.currPage, 'div [class \'myclass\'] [\n text \'mytext\'\n , button [class \'buttonclass\'] []\n]')),
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						A3($author$project$PageElements$visibleClass, model.currPage, 'Home', 'textcontainer')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$map,
+						$author$project$ComponentInterface$GalleryMessage,
+						A4(
+							$author$project$Gallery$view,
+							model.nums,
+							$author$project$Constants$pics,
+							_List_fromArray(
+								['left', 'border']),
+							_List_fromArray(
+								['pic', 'zoomable'])))
+					])),
+				A2(
+				$elm$html$Html$div,
+				_List_fromArray(
+					[
+						A3($author$project$PageElements$visibleClass, model.currPage, 'Home', 'textcontainer')
+					]),
+				_List_fromArray(
+					[
+						A2(
+						$elm$html$Html$map,
+						$author$project$ComponentInterface$GridMessage,
+						$author$project$Grid$gridView(
+							_List_fromArray(
+								[
+									_List_fromArray(
+									['monkey.png', 'slowmo']),
+									_List_fromArray(
+									['donkey.png', 'bright']),
+									_List_fromArray(
+									['cat.png', 'zoomable'])
+								])))
+					]))
+			]));
+};
+var $author$project$ComponentInterface$ScrollToElement = function (a) {
+	return {$: 'ScrollToElement', a: a};
+};
+var $author$project$Constants$highlight = $elm$core$Dict$fromList(
+	_List_fromArray(
+		[
+			_Utils_Tuple2('one', 'img/cat.png'),
+			_Utils_Tuple2('two', 'img/dog.png'),
+			_Utils_Tuple2('three', 'img/donkey.png'),
+			_Utils_Tuple2('four', 'img/monkey.png')
+		]));
 var $author$project$Highlight$Four = {$: 'Four'};
 var $author$project$Highlight$One = {$: 'One'};
 var $author$project$Highlight$Three = {$: 'Three'};
@@ -6816,32 +6894,12 @@ var $author$project$Highlight$view = F2(
 						]))
 				]));
 	});
-var $author$project$ComponentInterface$view = function (model) {
+var $author$project$ComponentInterface$viewTwo = function (model) {
 	return A2(
 		$elm$html$Html$div,
 		_List_Nil,
 		_List_fromArray(
 			[
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$class('header')
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$h1,
-						_List_Nil,
-						_List_fromArray(
-							[
-								$elm$html$Html$text('Práca s komponentmi v jazyku Elm')
-							])),
-						A2(
-						$elm$html$Html$map,
-						$author$project$ComponentInterface$PageMsg,
-						$author$project$PageElements$navBarView(model.currPage))
-					])),
 				A2(
 				$elm$html$Html$map,
 				$author$project$ComponentInterface$PageMsg,
@@ -6860,42 +6918,9 @@ var $author$project$ComponentInterface$view = function (model) {
 					[
 						A2(
 						$elm$html$Html$map,
-						$author$project$ComponentInterface$GalleryMessage,
-						A4(
-							$author$project$Gallery$view,
-							model.nums,
-							$author$project$Constants$pics,
-							_List_fromArray(
-								['left', 'border']),
-							_List_fromArray(
-								['pic', 'zoomable'])))
+						$author$project$ComponentInterface$HighlightMessage,
+						A2($author$project$Highlight$view, model.highl, $author$project$Constants$highlight))
 					])),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						A3($author$project$PageElements$visibleClass, model.currPage, 'Home', 'textcontainer')
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$map,
-						$author$project$ComponentInterface$GridMessage,
-						$author$project$Grid$gridView(
-							_List_fromArray(
-								[
-									_List_fromArray(
-									['monkey.png', 'slowmo']),
-									_List_fromArray(
-									['donkey.png', 'bright']),
-									_List_fromArray(
-									['cat.png', 'zoomable'])
-								])))
-					])),
-				A2(
-				$elm$html$Html$map,
-				$author$project$ComponentInterface$HighlightMessage,
-				A2($author$project$Highlight$view, model.highl, $author$project$Constants$highlight)),
 				A2(
 				$elm$html$Html$a,
 				_List_fromArray(
@@ -6929,7 +6954,11 @@ var $author$project$Main$view = function (model) {
 				A2(
 				$elm$html$Html$map,
 				$author$project$Main$ComponentIntMessage,
-				$author$project$ComponentInterface$view(model))
+				$author$project$ComponentInterface$viewOne(model)),
+				A2(
+				$elm$html$Html$map,
+				$author$project$Main$ComponentIntMessage,
+				$author$project$ComponentInterface$viewTwo(model))
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(

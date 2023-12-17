@@ -23,7 +23,8 @@ view : Model -> Html Msg
 view model = 
     div [id "bodydiv"] [
         div [id "top"] []
-        , Html.map ComponentIntMessage (ComponentInterface.view model)
+        , Html.map ComponentIntMessage (ComponentInterface.viewOne model)
+        , Html.map ComponentIntMessage (ComponentInterface.viewTwo model)
     ]
 
 update : Msg -> Model -> (Model, Cmd Msg)
