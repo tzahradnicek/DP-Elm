@@ -12,6 +12,11 @@
     font-style: italic;
 }
 
+h2 {
+    text-align: left;
+    font-style: italic;
+}
+
 .pic {
     width: 900px;
     height: 500px;
@@ -217,7 +222,7 @@ ul {
     text-align: center;
 }
   
-li {
+.navListEl {
     display: inline-block;
     color:white;
     margin: 0 30px;
@@ -262,4 +267,19 @@ li a:hover {
     align-items: center;
     white-space: pre-wrap;
     word-wrap: break-word;
+}
+
+.paragraphTitle {
+    /* padding-left: 275px; */
+    padding-top: 25px;
+    margin: 5px auto;
+    width: 72%;
+    justify-content: center;
+    align-items: center;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.paragraph {
+    line-height: 1.75;
 }

@@ -5,7 +5,7 @@ import Gallery exposing(..)
 import Highlight exposing(..)
 import Grid exposing(..)
 import PageElements exposing(..)
-import Constants exposing(pics, pics2, pics3, highlight, Model)
+import Constants exposing(pics, pics3, pats, Model)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
@@ -23,7 +23,7 @@ type Msg
 -- define which dictionaries to loop through using subscriptions
 keysToUpdate : List (String, Int)
 keysToUpdate =
-    [ ("pics", Gallery.dictSize pics), ("pics2", Gallery.dictSize pics), ("pics3", Gallery.dictSize pics3) ]
+    [ ("pics", Gallery.dictSize pics), ("pics2", Gallery.dictSize pics), ("pics3", Gallery.dictSize pics3), ("pats", Gallery.dictSize pats) ]
 
 -- combined update for all incoming components to the interface
 update : Msg -> Model -> (Model, Cmd Msg)
@@ -64,32 +64,33 @@ viewOne : Model -> Html Msg
 viewOne model = 
     div [] [
         div [class "header"] [
-            h1 [] [ text "Práca s komponentmi v jazyku Elm"] 
+            h1 [] [ text "Component Creation Patterns and Their Use in Elm"] 
             , Html.map PageMsg (navBarView model.currPage)
         ] 
-        , Html.map PageMsg (bubbleView model.currPage)
-        , Html.map PageMsg (snippetView model.currPage "div [class 'myclass'] [\n text 'mytext'\n , button [class 'buttonclass'] []\n]")
-        , div [visibleClass model.currPage "Home" "textcontainer"] [
-            Html.map GalleryMessage (Gallery.view model.nums pics ["left", "border"] ["pic", "zoomable"])
+        , Html.map PageMsg (homeBubbleView model.currPage "Home")
+        , Html.map PageMsg (codingBubbleView model.currPage "About")
+        , div [visibleClass model.currPage "About" "textcontainer"] [
+            Html.map GalleryMessage (Gallery.view model.nums pats ["left"] ["pic"])
         ] 
-        , div [visibleClass model.currPage "Home" "textcontainer"] [
-            Html.map GridMessage (Grid.gridView [["monkey.png", "slowmo"], ["donkey.png", "bright"], ["cat.png", "zoomable"]])
-        ]
-    ]
-
-viewTwo : Model -> Html Msg 
-viewTwo model = 
-    div [] [
-        Html.map PageMsg (bubbleView model.currPage)
-        , Html.map PageMsg (snippetView model.currPage "div [class 'myclass'] [\n text 'mytext'\n , button [class 'buttonclass'] []\n]")
-        , div [visibleClass model.currPage "Home" "textcontainer"] [
-            Html.map HighlightMessage (Highlight.view model.highl highlight)
-        ]
+        -- , div [visibleClass model.currPage "Home" "textcontainer"] [
+        --     Html.map GridMessage (Grid.gridView [["monkey.png", "slowmo"], ["donkey.png", "bright"], ["cat.png", "zoomable"]])
+        -- ]
         , a [ onClick (ScrollToElement "top"), class "clickable"] [text "Back To Top"]
     ]
 
+-- viewTwo : Model -> Html Msg 
+-- viewTwo model = 
+--     div [] [
+--         Html.map PageMsg (bubbleView model.currPage)
+--         -- , Html.map PageMsg (snippetView model.currPage "div [class 'myclass'] [\n text 'mytext'\n , button [class 'buttonclass'] []\n]")
+--         , div [visibleClass model.currPage "Home" "textcontainer"] [
+--             Html.map HighlightMessage (Highlight.view model.highl highlight)
+--         ]
+--         , a [ onClick (ScrollToElement "top"), class "clickable"] [text "Back To Top"]
+--     ]
+
 subscriptions : Model -> Sub Msg
 subscriptions model =
-    Sub.map GalleryMessage (Time.every 1000 Tick)
+    Sub.map GalleryMessage (Time.every 5000 Tick)
 
 port scrollToElement: String -> Cmd msg

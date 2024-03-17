@@ -5417,7 +5417,7 @@ var $author$project$ComponentInterface$subscriptions = function (model) {
 	return A2(
 		$elm$core$Platform$Sub$map,
 		$author$project$ComponentInterface$GalleryMessage,
-		A2($elm$time$Time$every, 1000, $author$project$Gallery$Tick));
+		A2($elm$time$Time$every, 5000, $author$project$Gallery$Tick));
 };
 var $author$project$Main$componentSubcriptions = function (model) {
 	return A2(
@@ -5661,7 +5661,8 @@ var $author$project$Constants$nums = $elm$core$Dict$fromList(
 		[
 			_Utils_Tuple2('pics', 1),
 			_Utils_Tuple2('pics2', 1),
-			_Utils_Tuple2('pics3', 1)
+			_Utils_Tuple2('pics3', 1),
+			_Utils_Tuple2('pats', 1)
 		]));
 var $author$project$Main$initialModel = function (_v0) {
 	return _Utils_Tuple2(
@@ -5697,6 +5698,14 @@ var $elm$core$Dict$size = function (dict) {
 var $author$project$Gallery$dictSize = function (dict) {
 	return $elm$core$Dict$size(dict) - 2;
 };
+var $author$project$Constants$pats = $elm$core$Dict$fromList(
+	_List_fromArray(
+		[
+			_Utils_Tuple2(0, 'pats'),
+			_Utils_Tuple2(1, 'img/pat1.png'),
+			_Utils_Tuple2(2, 'img/pat2.png'),
+			_Utils_Tuple2(3, 'img/pat3.png')
+		]));
 var $author$project$Constants$pics = $elm$core$Dict$fromList(
 	_List_fromArray(
 		[
@@ -5724,7 +5733,10 @@ var $author$project$ComponentInterface$keysToUpdate = _List_fromArray(
 		$author$project$Gallery$dictSize($author$project$Constants$pics)),
 		_Utils_Tuple2(
 		'pics3',
-		$author$project$Gallery$dictSize($author$project$Constants$pics3))
+		$author$project$Gallery$dictSize($author$project$Constants$pics3)),
+		_Utils_Tuple2(
+		'pats',
+		$author$project$Gallery$dictSize($author$project$Constants$pats))
 	]);
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $author$project$ComponentInterface$scrollToElement = _Platform_outgoingPort('scrollToElement', $elm$json$Json$Encode$string);
@@ -6337,13 +6349,120 @@ var $elm$html$Html$Attributes$stringProperty = F2(
 var $elm$html$Html$Attributes$id = $elm$html$Html$Attributes$stringProperty('id');
 var $elm$virtual_dom$VirtualDom$map = _VirtualDom_map;
 var $elm$html$Html$map = $elm$virtual_dom$VirtualDom$map;
-var $author$project$ComponentInterface$GridMessage = function (a) {
-	return {$: 'GridMessage', a: a};
+var $author$project$ComponentInterface$ScrollToElement = function (a) {
+	return {$: 'ScrollToElement', a: a};
 };
-var $elm$html$Html$br = _VirtualDom_node('br');
+var $elm$html$Html$a = _VirtualDom_node('a');
+var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $elm$html$Html$h2 = _VirtualDom_node('h2');
 var $elm$virtual_dom$VirtualDom$text = _VirtualDom_text;
 var $elm$html$Html$text = $elm$virtual_dom$VirtualDom$text;
-var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $author$project$PageElements$paragprahView = F4(
+	function (model, elementID, title, content) {
+		return A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$class('paragraphTitle')
+						]),
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$h2,
+							_List_Nil,
+							_List_fromArray(
+								[
+									$elm$html$Html$text(title)
+								]))
+						])),
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$id(elementID),
+							$elm$html$Html$Attributes$class('paragraph textcontainer')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(content)
+						]))
+				]));
+	});
+var $elm$html$Html$li = _VirtualDom_node('li');
+var $elm$html$Html$ol = _VirtualDom_node('ol');
+var $author$project$PageElements$paragprahViewList = F5(
+	function (model, elementID, content1, content2, listElems) {
+		return A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$id(elementID),
+							$elm$html$Html$Attributes$class('paragraph textcontainer')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(content1),
+							A2(
+							$elm$html$Html$ol,
+							_List_Nil,
+							A2(
+								$elm$core$List$map,
+								function (item) {
+									return A2(
+										$elm$html$Html$li,
+										_List_Nil,
+										_List_fromArray(
+											[
+												$elm$html$Html$text(item)
+											]));
+								},
+								listElems)),
+							$elm$html$Html$text(content2)
+						]))
+				]));
+	});
+var $elm$html$Html$code = _VirtualDom_node('code');
+var $elm$html$Html$pre = _VirtualDom_node('pre');
+var $author$project$PageElements$snippetView = F4(
+	function (model, elementID, content, codesnippet) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('textcontainer'),
+					$elm$html$Html$Attributes$id(elementID)
+				]),
+			_List_fromArray(
+				[
+					$elm$html$Html$text(content),
+					A2(
+					$elm$html$Html$pre,
+					_List_Nil,
+					_List_fromArray(
+						[
+							A2(
+							$elm$html$Html$code,
+							_List_fromArray(
+								[
+									$elm$html$Html$Attributes$class('language-elm line-numbers line-highlight')
+								]),
+							_List_fromArray(
+								[
+									$elm$html$Html$text(codesnippet)
+								]))
+						]))
+				]));
+	});
 var $elm$core$String$concat = function (strings) {
 	return A2($elm$core$String$join, '', strings);
 };
@@ -6354,127 +6473,81 @@ var $author$project$PageElements$visibleClass = F3(
 				_List_fromArray(
 					['notvisible ', userclass])));
 	});
-var $author$project$PageElements$paragprahView = F4(
-	function (model, context, elementID, content) {
+var $author$project$PageElements$codingBubbleView = F2(
+	function (model, context) {
 		return A2(
 			$elm$html$Html$div,
 			_List_fromArray(
 				[
-					A3($author$project$PageElements$visibleClass, model, context, 'textcontainer'),
-					$elm$html$Html$Attributes$id(elementID)
+					A3($author$project$PageElements$visibleClass, model, context, '')
 				]),
 			_List_fromArray(
 				[
-					$elm$html$Html$text(content),
-					A2($elm$html$Html$br, _List_Nil, _List_Nil)
+					A4($author$project$PageElements$paragprahView, model, '', 'Some More Components', 'The successful implementation of the updateWith function lead me to find and add a new component to my website. This time, the choice landed on a similar component which used images as its main point of attraction with a small amount of user interaction. The component is a tab gallery which would highlight the selected image - my Highlight component. The process of implementation was similar to the gallery component’s, but this time it was faster and easier. This was due to the fact that most of what I used for my first component could be used for this one as well. The biggest advantage was my previous experience with the mapping functions that were used before.'),
+					A4($author$project$PageElements$snippetView, model, '', 'After implementing my Highlight component and moving it into its own module the code looked something like this:', 'update : import Gallery exposing(..)\r\nimport Highlight exposing(..)\r\n\r\ntype Msg\r\n    = GalleryMessage Gallery.Msg\r\n    | HighlightMessage Highlight.Msg\r\n\r\nview model = \r\n    div [] [\r\n        div [class "header"] [\r\n            h1 [] [text "Testing" ] ]\r\n        , Html.map GalleryMessage (Gallery.galleryView model.nums pics2 ["center"] ["pic"])\r\n        , Html.map HighlightMessage (Highlight.highlightView model.highl highlight)\r\n        ]\r\n\r\nupdate : Msg -> Model -> (Model, Cmd Msg)\r\nupdate msg model = \r\n    case msg of\r\n        GalleryMessage message ->\r\n            updateWith GalleryMessage model ( Gallery.update message model.nums )\r\n        HighlightMessage message ->\r\n            updateWithHighl HighlightMessage model ( Highlight.update message model.highl)  \r\n\r\nupdateWith : (subMsg -> Msg) -> Model -> ( Gallery.Model, Cmd subMsg ) -> ( Model, Cmd Msg )\r\nupdateWith toMsg model ( subModel, subCmd ) =\r\n    ( {model | nums = subModel}\r\n    , Cmd.map toMsg subCmd\r\n    )\r\n\r\nupdateWithHighl : (subMsg -> Msg) -> Model -> ( Highlight.Model, Cmd subMsg ) -> ( Model, Cmd Msg )\r\nupdateWithHighl toMsg model ( subModel, subCmd ) =\r\n    ( {model | highl = subModel}\r\n    , Cmd.map toMsg subCmd\r\n    )'),
+					A4($author$project$PageElements$snippetView, model, '', 'As one might have noticed, the amount of code added into the main file is not too extensive. A few lines of code for imports, message and model declarations, adding the Highlight component into the main view and update functions and lastly making a new updateWithHighl function, which is a slightly altered version of the previous one. The changes made to the updateWith are specific to the new highlight component. At this point I realized that each component will need an updateWith function in case the component has its own update function. To test this theory I decided to implement another component, which was meant to be static with no user interactions - without an update function. Since I already had two components that revolved around images, I decided to implement a simple image grid. Adding the image grid component (of course after encapsulating it into its own module) was even easier than the previous ones, as my theory was proven to be true. To add the image grid component, I only needed to add the import and message declaration along with adding the component’s view into the main file’s view function. The update function of the main file was also slightly changed, just to account for the image grid’s message type - which does not do anything anyways.', 'update : Msg -> Model -> (Model, Cmd Msg)\r\nupdate msg model = \r\n    case msg of\r\n        GalleryMessage message ->\r\n            updateWith GalleryMessage model ( Gallery.update message model.nums )\r\n        HighlightMessage message ->\r\n            updateWithHighl HighlightMessage model ( Highlight.update message model.highl)  \r\n         _ ->\r\n            (model, Cmd.none)'),
+					A5(
+					$author$project$PageElements$paragprahViewList,
+					model,
+					'',
+					'At this point I considered the first pattern to be done.',
+					'Once I implemented all three components and defined my first pattern, it was apparent that simply encapsulating the components one by one or grouping them into one file - as one prefers - might not be clean and good enough. The reason behind this thought was the fact that each newly created type of component (two gallery components can use the same update and updateWith function) would require me to implement its own updateWith function along with all the required lines of code (10+ in its current state). The number of lines of code would not be problem, my main issue was the fact that the main file would get cluttered with helper functions that were needed for the components.',
+					_List_fromArray(
+						['Implement the component', 'Encapsulate it into its own file/module', 'Implement an updateWith function so it can be mapped', 'Import the component into the main file', 'Map the view and update functions so the component can be used'])),
+					A4($author$project$PageElements$paragprahView, model, '', 'The Component Interface', 'A possible solution for this issue was hidden in plain sight, in the paragraph above. As I wrote above, one might want to group the definitions of some components into one file. But what if instead of doing that, one would combine/collect the usage of all components into one file with its shared view and update functions? I called this the ComponentInterface, where I would place all the code using components shown above. The idea was to not clutter the main file with all the definitions related to components, while still using components in an efficient way. My ComponentInterface looked like a promising way to achieve this goal. One problem came up while implementing this idea though - each component has its own file and now on top of that, there was another file that was supposed to collect all the components. This implied the need of yet another updateWith, which seemed to be a bit tedious at this point. There was one difference in the new updateWith function, this one was supposed to serve the whole ComponentInterface, including all the components that are being used inside of it, which means that using this approach there would be only one updateWith function in the main file per ComponentInterface. With these changes the main file could be cleaned up by moving all code needed to use the components into the ComponentInterface itself. The main file would then get a new set of exactly eight lines of code, to import and use the ComponentInterface. This number of lines would not change with the increasing number of components inside of the ComponentInterface which means that the code in the main file can be kept clean regardless of what’s happening in the ComponentInterface itself. For this to work, we had to move the model from the main file to the constants file, as the both the main file and the ComponnetInterface need to have access to the model.'),
+					A4($author$project$PageElements$snippetView, model, '', 'The model is still only being changed in the main file. Let’s look at the code in the main file after making these changes:', 'import CompInterface exposing(..)\r\n\r\ntype Msg\r\n    = ComponentIntMessage CompInterface.Msg\r\n\r\nview model = \r\n    div [] [\r\n        div [class "header"] [\r\n            h1 [] [text "Testing" ] ]\r\n        , Html.map ComponentIntMessage (CompInterface.view model)\r\n        ]\r\n\r\nupdate : Msg -> Model -> (Model, Cmd Msg)\r\nupdate msg model = \r\n    case msg of\r\n        ComponentIntMessage message ->\r\n            updateInterface ComponentIntMessage ( CompInterface.update message model) \r\n\r\nupdateInterface : (subMsg -> Msg) -> ( CompInterface.Model, Cmd subMsg ) -> ( Model, Cmd Msg )\r\nupdateInterface toMsg ( subModel, subCmd ) =\r\n    ( subModel, Cmd.map toMsg subCmd)'),
+					A5(
+					$author$project$PageElements$paragprahViewList,
+					model,
+					'',
+					'Implementing and realizing the idea of the ComponentInterface was a success and achieved the cleanup that was needed for the main file. Although the ComponentInterface on the inside might not seem to be as organized or clean, its only purpose is to collect components and to distribute them further to other files without the need to redefine the usage of each component along with their helper functions all over again. The success of the ComponentInterface lead me to define a second pattern:',
+					'We will analyze and explain each of the patterns and their use cases further on the Patterns tab.',
+					_List_fromArray(
+						['Implement a component', 'Encapsulate it into its own file/module', 'Implement an updateWith function so it can be mapped', 'Import the component into the ComponentInterface', 'Repeat steps 1-4 for each new component', 'Import the ComponentInterface into the main file', 'Implement an updateWith function so the interface can be mapped', 'Map the view and update functions of the interface so the components can be used']))
 				]));
 	});
-var $author$project$PageElements$bubbleView = function (model) {
-	return A2(
-		$elm$html$Html$div,
-		_List_Nil,
-		_List_fromArray(
-			[
-				A4($author$project$PageElements$paragprahView, model, 'Home', 'first', 'text for home\n pagasdsajgajdgbkajdbgk jadbgkjadbgkjadbgjbdgakjgbkadjgbkjdabgkjdabgk jdagbkadjgbadkjgbdakgjadg bkadjgbkjdagbkjadgbkadjgbkadjgbkadjgbkjadbgkjadbgkdj abgkjdabgkjadbgjkadbgkjadgbdkabgdajgbkadjgbkjadgb kajdgbkadjgbkadjgbkadjgbkadjgbgkjdabdgkaj bgdakjalfjlaskdje'),
-				A4($author$project$PageElements$paragprahView, model, 'Home', 'second', 'text for homepage2'),
-				A4($author$project$PageElements$paragprahView, model, 'Home', 'second', 'text for homepage2'),
-				A4($author$project$PageElements$paragprahView, model, 'Home', 'second', 'text for homepage2'),
-				A4($author$project$PageElements$paragprahView, model, 'Home', 'second', 'text for homepage2'),
-				A4($author$project$PageElements$paragprahView, model, 'Home', 'second', 'text for homepage2'),
-				A4($author$project$PageElements$paragprahView, model, 'Home', 'second', 'text for homepage3'),
-				A4($author$project$PageElements$paragprahView, model, 'About', 'second', 'text for about'),
-				A4($author$project$PageElements$paragprahView, model, 'Contact', 'second', 'text for contact')
-			]));
-};
-var $elm$core$List$head = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(x);
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
-var $elm$html$Html$img = _VirtualDom_node('img');
-var $elm$html$Html$Attributes$src = function (url) {
-	return A2(
-		$elm$html$Html$Attributes$stringProperty,
-		'src',
-		_VirtualDom_noJavaScriptOrHtmlUri(url));
-};
-var $elm$core$List$tail = function (list) {
-	if (list.b) {
-		var x = list.a;
-		var xs = list.b;
-		return $elm$core$Maybe$Just(xs);
-	} else {
-		return $elm$core$Maybe$Nothing;
-	}
-};
-var $author$project$Grid$generateGrid = function (list) {
-	var secondElem = function () {
-		var _v1 = $elm$core$List$tail(list);
-		if (_v1.$ === 'Just') {
-			var rest = _v1.a;
-			var _v2 = $elm$core$List$head(rest);
-			if (_v2.$ === 'Just') {
-				var second = _v2.a;
-				return second;
-			} else {
-				return '';
-			}
-		} else {
-			return '';
-		}
-	}();
-	var firstElem = function () {
-		var _v0 = $elm$core$List$head(list);
-		if (_v0.$ === 'Just') {
-			var first = _v0.a;
-			return first;
-		} else {
-			return '';
-		}
-	}();
-	return A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class(
-				$elm$core$String$concat(
-					_List_fromArray(
-						['grid_item ', secondElem])))
-			]),
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$img,
-				_List_fromArray(
-					[
-						$elm$html$Html$Attributes$src(
-						$elm$core$String$concat(
-							_List_fromArray(
-								['img/', firstElem]))),
-						$elm$html$Html$Attributes$class('grid_img')
-					]),
-				_List_Nil)
-			]));
-};
-var $author$project$Grid$gridView = function (listOfLists) {
-	return A2(
-		$elm$html$Html$div,
-		_List_fromArray(
-			[
-				$elm$html$Html$Attributes$class('grid')
-			]),
-		A2($elm$core$List$map, $author$project$Grid$generateGrid, listOfLists));
-};
 var $elm$html$Html$h1 = _VirtualDom_node('h1');
+var $author$project$PageElements$paragprahViewNoT = F3(
+	function (model, elementID, content) {
+		return A2(
+			$elm$html$Html$div,
+			_List_Nil,
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$div,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$id(elementID),
+							$elm$html$Html$Attributes$class('paragraph textcontainer')
+						]),
+					_List_fromArray(
+						[
+							$elm$html$Html$text(content)
+						]))
+				]));
+	});
+var $author$project$PageElements$homeBubbleView = F2(
+	function (model, context) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A3($author$project$PageElements$visibleClass, model, context, '')
+				]),
+			_List_fromArray(
+				[
+					A4($author$project$PageElements$paragprahView, model, '', 'Viability of Components in Elm', 'Elm is a functional language that compiles to JavaScript. It helps you make websites and web apps. It has a strong emphasis on simplicity and quality tooling. As every functional programming language it has its strengths such as no run-time errors in practice, friendly error messages, reliable refactoring. With these attributes also comes great reliability, maintainability and performance in the context of front-end web development. As the official Elm guide reads: „No combination of JS libraries can give you all of these guarantees. They come from the design of the language itself! And thanks to these guarantees, it is quite common for Elm programmers to say they never felt so confident while programming. Confident to add features quickly. Confident to refactor thousands of lines.“ However, this website/tutorial would not exist if Elm did not have some smaller issues and irregularities. To be more specific, we are going to look at components and their state in Elm. The official guide for the structure of Elm states the following: „Folks coming from JavaScript tend to bring habits, expectations, and anxieties that are specific to JavaScript. They are legitimately important in that context, but they can cause some pretty severe troubles when transferred to Elm.“ Now, this claim can not be denied, as components among many other coding principles have proven to be useful and widely used - let it be in JavaScript, React or any other popular programming language. We mention JavaScript and React specifically because they are mostly used to develop user interaction heavy web applications. To dig a bit deeper into this topic, lets see what the official guide for the structure of Elm has to say about using components in Elm: „Folks coming from React expect everything to be components. Actively trying to make components is a recipe for disaster in Elm. The root issue is that components are objects.“ The guide further elaborates on this, using a simple example where a developer would implement a simple sidebar element - which would be done as a component in JavaScript or React: „It would be way easier to just make a viewSidebar function and pass it whatever arguments it needs. It probably does not even have any state. Maybe one or two fields? Just put it in the Model you already have. Point is, writing a viewSidebar function does not mean you need to create a corresponding update and Model to go with it. Resist this instinct. Just write the helper functions you need.“'),
+					A4($author$project$PageElements$paragprahView, model, '', 'The First Steps', 'While I do agree with this to some extent, I wanted to explore the possibilities of components in Elm. To be more specific, my goal was to try what can and cannot be done using components in Elm, while the final outcome was a set of architectural patterns. These patterns are supposed to be guides allowing developers to try and use components in Elm. In theory, any pattern that would come out of my research could be considered as an anti-pattern to what we saw in the official Elm guide. On the other hand, if any of the patterns would prove to be useful, providing a clean and efficient way to use components in Elm, the official Elm guide be considered as the anti-pattern. Which will be the case will depend on how well will my patterns be received, tested and evaluated by other developers. Here is what I found and a step by step explanation to how and why I came up with my patterns. As I had no previous experience with Elm nor with any functional programming language the first steps were to get comfortable with the syntax, types and Elm itself. My first task was to make a simple site with which the user could interact. My second task was to implement a more complex element that could be worthy for its own module. The first component I chose was an image gallery/slideshow, which is simple but can be improved and made more complex - which is exactly what I needed in the long term. I implemented the gallery component in the following iterations: get the image to show up on the website, learn how to use messages and the update function in Elm properly, figure out a way to feed my images to the gallery(using Dict, which was more complex and a lot different than I thought it would be), find a way how to make the images cycle using buttons, implement subscriptions so the images will cycle automatically'),
+					A4($author$project$PageElements$paragprahView, model, '', 'Creating The First Component', 'At first the official Elm guide had a fair point, where it was clear that components such as my gallery can be done using just helper functions without a module of their own. But that’s just one component, with one basic functionality. I looked at the code I wrote, and it was around 150 lines of code (not clean and optimized of course) for my component and some very basic HTML elements like a header and some divisions. This made me realize that while I did implement a component with only helper functions I forgot about clean, maintainable and reusable code. I had all of the interactions and inputs into my gallery hard-coded which would prevent me to reuse my code. This, of course, was an issue on my side. To correct these issues I put the component’s definition into a helper view function and all of the interactions into its own update function. This was where my "JavaScript instincts"kicked in and I decided to take my component and put it into a module/file of its own. With this simple change, my code seemed to be cleaner but it still worked. There was one major issue, as I had no other elements on my website other than the image gallery I was able to use the update function of my component - as I look back was definitely mistake, which had to be made to learn and make the code better/cleaner and the usage of components in Elm more approachable. To implement the use case of my gallery component correctly I had to do some research on how to make view and update functions from another module work in my main file. The usual "just import it and use it"JavaScript approach did not work, as there were problems with the types of the messages that the component’s view and update function were producing. Even though both function had the same type annotation as the view and update function in my main file, the types were not compatible. This was due to the fact that the component’s view a update functions were producing Gallery.Html Msg instead of Html Msg. Each function had to be fixed separately - the view function had to be mapped using the GalleryMessage message type and the Html.map function. As for the update function, at first the task seemed to be impossible with the amount of knowledge I had when I faced the problem. The idea was almost the same as it was with the view function - take the component’s update function and convert it/it’s results so they are compatible with the main file’s type. One might consider just undoing the step where we moved the gallery component outside of the main file to not have to deal with this issue. I wanted to continue, to see if the usage of components is really as bad in Elm as it seems/as the official guide claims it to be. The solution for this problem was finally found in the source code for a Single Page Application (SPA) example from Richard Feldman’s github page [0]. After this discovery, we made a simpler version of Feldman’s updateWith function, which we started using to map the update function of the gallery component with.'),
+					A4($author$project$PageElements$snippetView, model, '', 'The solution for the view function looks like the following:', 'import Gallery exposing(..)\r\n\r\ntype Msg\r\n    = GalleryMessage Gallery.Msg\r\n\r\nview : Model -> Html Msg \r\nview model = \r\n    div [] [\r\n        div [class "header"] [\r\n            h1 [] [text "My first page" ] ]\r\n        , Html.map GalleryMessage (Gallery.galleryView model.nums pics2 ["center"] ["pic"])\r\n        ]'),
+					A4($author$project$PageElements$snippetView, model, '', 'The simplified version of the updateWith function in action:', 'update : Msg -> Model -> (Model, Cmd Msg)\r\nupdate msg model = \r\n    case msg of\r\n        GalleryMessage message ->\r\n            updateWith GalleryMessage model ( Gallery.update message model.nums )\r\n\r\nupdateWith : (subMsg -> Msg) -> Model -> ( Gallery.Model, Cmd subMsg ) -> ( Model, Cmd Msg )\r\nupdateWith toMsg model ( subModel, subCmd ) =\r\n    ( {model | nums = subModel}\r\n    , Cmd.map toMsg subCmd\r\n    )'),
+					A3($author$project$PageElements$paragprahViewNoT, model, '', 'Our updateWith function is mapping the output of the gallery component’s update function to the correct type which is compatible and acceptable for the main file. This is done using the message type which the gallery component generates, its model and command. The gallery component’s model is basically just a field, which acts as a local state for it. This local model is then replaced in the main model, thus the need of the updateWith function. After these changes my component was working as intended, with functional user interactions and automatic picture cycling using subscriptions. There were a few things left which had to be done to make the component more dynamic - the way how arguments are passed into the component and some styling. This may and most probably will vary with each component, but in my case I wanted to make it more customizable from the outside - to reuse the component without any changes to the component’s source code itself.')
+				]));
+	});
 var $author$project$PageElements$About = {$: 'About'};
 var $author$project$PageElements$Contact = {$: 'Contact'};
 var $author$project$PageElements$Home = {$: 'Home'};
-var $elm$html$Html$a = _VirtualDom_node('a');
-var $elm$html$Html$li = _VirtualDom_node('li');
 var $elm$virtual_dom$VirtualDom$Normal = function (a) {
 	return {$: 'Normal', a: a};
 };
@@ -6497,7 +6570,10 @@ var $author$project$PageElements$navBarItem = F3(
 		var style = 'clickable';
 		return A2(
 			$elm$html$Html$li,
-			_List_Nil,
+			_List_fromArray(
+				[
+					$elm$html$Html$Attributes$class('navListEl')
+				]),
 			_List_fromArray(
 				[
 					A2(
@@ -6540,37 +6616,6 @@ var $author$project$PageElements$navBarView = function (model) {
 					]))
 			]));
 };
-var $elm$html$Html$code = _VirtualDom_node('code');
-var $elm$html$Html$pre = _VirtualDom_node('pre');
-var $author$project$PageElements$snippetView = F2(
-	function (model, codesnippet) {
-		return A2(
-			$elm$html$Html$div,
-			_List_fromArray(
-				[
-					$elm$html$Html$Attributes$class('textcontainer')
-				]),
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$pre,
-					_List_Nil,
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$code,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$class('language-elm line-numbers line-highlight')
-								]),
-							_List_fromArray(
-								[
-									$elm$html$Html$text(codesnippet)
-								]))
-						])),
-					A2($elm$html$Html$br, _List_Nil, _List_Nil)
-				]));
-	});
 var $author$project$Gallery$Next = function (a) {
 	return {$: 'Next', a: a};
 };
@@ -6578,6 +6623,13 @@ var $author$project$Gallery$Prev = function (a) {
 	return {$: 'Prev', a: a};
 };
 var $elm$html$Html$button = _VirtualDom_node('button');
+var $elm$html$Html$img = _VirtualDom_node('img');
+var $elm$html$Html$Attributes$src = function (url) {
+	return A2(
+		$elm$html$Html$Attributes$stringProperty,
+		'src',
+		_VirtualDom_noJavaScriptOrHtmlUri(url));
+};
 var $author$project$Gallery$view = F4(
 	function (model, picDict, picPosition, picStyle) {
 		return A2(
@@ -6668,7 +6720,7 @@ var $author$project$ComponentInterface$viewOne = function (model) {
 						_List_Nil,
 						_List_fromArray(
 							[
-								$elm$html$Html$text('Práca s komponentmi v jazyku Elm')
+								$elm$html$Html$text('Component Creation Patterns and Their Use in Elm')
 							])),
 						A2(
 						$elm$html$Html$map,
@@ -6678,16 +6730,16 @@ var $author$project$ComponentInterface$viewOne = function (model) {
 				A2(
 				$elm$html$Html$map,
 				$author$project$ComponentInterface$PageMsg,
-				$author$project$PageElements$bubbleView(model.currPage)),
+				A2($author$project$PageElements$homeBubbleView, model.currPage, 'Home')),
 				A2(
 				$elm$html$Html$map,
 				$author$project$ComponentInterface$PageMsg,
-				A2($author$project$PageElements$snippetView, model.currPage, 'div [class \'myclass\'] [\n text \'mytext\'\n , button [class \'buttonclass\'] []\n]')),
+				A2($author$project$PageElements$codingBubbleView, model.currPage, 'About')),
 				A2(
 				$elm$html$Html$div,
 				_List_fromArray(
 					[
-						A3($author$project$PageElements$visibleClass, model.currPage, 'Home', 'textcontainer')
+						A3($author$project$PageElements$visibleClass, model.currPage, 'About', 'textcontainer')
 					]),
 				_List_fromArray(
 					[
@@ -6697,229 +6749,11 @@ var $author$project$ComponentInterface$viewOne = function (model) {
 						A4(
 							$author$project$Gallery$view,
 							model.nums,
-							$author$project$Constants$pics,
+							$author$project$Constants$pats,
 							_List_fromArray(
-								['left', 'border']),
+								['left']),
 							_List_fromArray(
-								['pic', 'zoomable'])))
-					])),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						A3($author$project$PageElements$visibleClass, model.currPage, 'Home', 'textcontainer')
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$map,
-						$author$project$ComponentInterface$GridMessage,
-						$author$project$Grid$gridView(
-							_List_fromArray(
-								[
-									_List_fromArray(
-									['monkey.png', 'slowmo']),
-									_List_fromArray(
-									['donkey.png', 'bright']),
-									_List_fromArray(
-									['cat.png', 'zoomable'])
-								])))
-					]))
-			]));
-};
-var $author$project$ComponentInterface$ScrollToElement = function (a) {
-	return {$: 'ScrollToElement', a: a};
-};
-var $author$project$Constants$highlight = $elm$core$Dict$fromList(
-	_List_fromArray(
-		[
-			_Utils_Tuple2('one', 'img/cat.png'),
-			_Utils_Tuple2('two', 'img/dog.png'),
-			_Utils_Tuple2('three', 'img/donkey.png'),
-			_Utils_Tuple2('four', 'img/monkey.png')
-		]));
-var $author$project$Highlight$Four = {$: 'Four'};
-var $author$project$Highlight$One = {$: 'One'};
-var $author$project$Highlight$Three = {$: 'Three'};
-var $author$project$Highlight$Two = {$: 'Two'};
-var $author$project$Highlight$view = F2(
-	function (model, picDict) {
-		return A2(
-			$elm$html$Html$div,
-			_List_Nil,
-			_List_fromArray(
-				[
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('row')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$Highlight$One),
-									$elm$html$Html$Attributes$class('column button-img')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$img,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$src(
-											function () {
-												var _v0 = A2($elm$core$Dict$get, 'one', picDict);
-												if (_v0.$ === 'Just') {
-													var value = _v0.a;
-													return value;
-												} else {
-													return 'text';
-												}
-											}()),
-											(model === 'one') ? $elm$html$Html$Attributes$class('selected') : $elm$html$Html$Attributes$class('')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$Highlight$Two),
-									$elm$html$Html$Attributes$class('column button-img')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$img,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$src(
-											function () {
-												var _v1 = A2($elm$core$Dict$get, 'two', picDict);
-												if (_v1.$ === 'Just') {
-													var value = _v1.a;
-													return value;
-												} else {
-													return 'text';
-												}
-											}()),
-											(model === 'two') ? $elm$html$Html$Attributes$class('selected') : $elm$html$Html$Attributes$class('')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$Highlight$Three),
-									$elm$html$Html$Attributes$class('column button-img')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$img,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$src(
-											function () {
-												var _v2 = A2($elm$core$Dict$get, 'three', picDict);
-												if (_v2.$ === 'Just') {
-													var value = _v2.a;
-													return value;
-												} else {
-													return 'text';
-												}
-											}()),
-											(model === 'three') ? $elm$html$Html$Attributes$class('selected') : $elm$html$Html$Attributes$class('')
-										]),
-									_List_Nil)
-								])),
-							A2(
-							$elm$html$Html$button,
-							_List_fromArray(
-								[
-									$elm$html$Html$Events$onClick($author$project$Highlight$Four),
-									$elm$html$Html$Attributes$class('column button-img')
-								]),
-							_List_fromArray(
-								[
-									A2(
-									$elm$html$Html$img,
-									_List_fromArray(
-										[
-											$elm$html$Html$Attributes$src(
-											function () {
-												var _v3 = A2($elm$core$Dict$get, 'four', picDict);
-												if (_v3.$ === 'Just') {
-													var value = _v3.a;
-													return value;
-												} else {
-													return 'text';
-												}
-											}()),
-											(model === 'four') ? $elm$html$Html$Attributes$class('selected') : $elm$html$Html$Attributes$class('')
-										]),
-									_List_Nil)
-								]))
-						])),
-					A2(
-					$elm$html$Html$div,
-					_List_fromArray(
-						[
-							$elm$html$Html$Attributes$class('container')
-						]),
-					_List_fromArray(
-						[
-							A2(
-							$elm$html$Html$img,
-							_List_fromArray(
-								[
-									$elm$html$Html$Attributes$src(
-									function () {
-										var _v4 = A2($elm$core$Dict$get, model, picDict);
-										if (_v4.$ === 'Just') {
-											var value = _v4.a;
-											return value;
-										} else {
-											return 'text';
-										}
-									}()),
-									$elm$html$Html$Attributes$class('fullwidth')
-								]),
-							_List_Nil)
-						]))
-				]));
-	});
-var $author$project$ComponentInterface$viewTwo = function (model) {
-	return A2(
-		$elm$html$Html$div,
-		_List_Nil,
-		_List_fromArray(
-			[
-				A2(
-				$elm$html$Html$map,
-				$author$project$ComponentInterface$PageMsg,
-				$author$project$PageElements$bubbleView(model.currPage)),
-				A2(
-				$elm$html$Html$map,
-				$author$project$ComponentInterface$PageMsg,
-				A2($author$project$PageElements$snippetView, model.currPage, 'div [class \'myclass\'] [\n text \'mytext\'\n , button [class \'buttonclass\'] []\n]')),
-				A2(
-				$elm$html$Html$div,
-				_List_fromArray(
-					[
-						A3($author$project$PageElements$visibleClass, model.currPage, 'Home', 'textcontainer')
-					]),
-				_List_fromArray(
-					[
-						A2(
-						$elm$html$Html$map,
-						$author$project$ComponentInterface$HighlightMessage,
-						A2($author$project$Highlight$view, model.highl, $author$project$Constants$highlight))
+								['pic'])))
 					])),
 				A2(
 				$elm$html$Html$a,
@@ -6954,11 +6788,7 @@ var $author$project$Main$view = function (model) {
 				A2(
 				$elm$html$Html$map,
 				$author$project$Main$ComponentIntMessage,
-				$author$project$ComponentInterface$viewOne(model)),
-				A2(
-				$elm$html$Html$map,
-				$author$project$Main$ComponentIntMessage,
-				$author$project$ComponentInterface$viewTwo(model))
+				$author$project$ComponentInterface$viewOne(model))
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(

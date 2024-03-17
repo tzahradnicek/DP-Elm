@@ -15,6 +15,7 @@ nums = Dict.fromList
         ("pics", 1)
         ,("pics2", 1)
         ,("pics3", 1)
+        ,("pats", 1)
     ]
 
 pics : Dict Int String
@@ -46,6 +47,14 @@ pics3 = Dict.fromList
         ,(1, "img/donkey.png")
     ]
 
+pats : Dict Int String
+pats = Dict.fromList
+    [
+        (0, "pats")
+        ,(1, "img/pat1.png")
+        ,(2, "img/pat2.png")
+        ,(3, "img/pat3.png")
+    ]
 highlight : Dict String String
 highlight = Dict.fromList
     [

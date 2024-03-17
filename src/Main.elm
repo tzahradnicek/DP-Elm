@@ -1,9 +1,8 @@
-module Main exposing (main)
+module Main exposing (main, update)
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
-import Dict exposing (Dict)
 import ComponentInterface exposing(..)
 import Constants exposing (Model, nums)
 
@@ -24,7 +23,7 @@ view model =
     div [id "bodydiv"] [
         div [id "top"] []
         , Html.map ComponentIntMessage (ComponentInterface.viewOne model)
-        , Html.map ComponentIntMessage (ComponentInterface.viewTwo model)
+        -- , Html.map ComponentIntMessage (ComponentInterface.viewTwo model)
     ]
 
 update : Msg -> Model -> (Model, Cmd Msg)
