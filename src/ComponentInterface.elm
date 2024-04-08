@@ -1,20 +1,20 @@
 port module ComponentInterface exposing (..)
 
 import Dict exposing (Dict)
-import Gallery exposing(..)
-import Highlight exposing(..)
-import Grid exposing(..)
+import Components.Gallery exposing(..)
+import Components.Highlight exposing(..)
+import Components.Grid exposing(..)
 import PageElements exposing(..)
-import Constants exposing(pics, pics3, pats, Model)
+import Constants exposing(pics, pics3, pats, Comp)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Time
 
 type Msg
-    = GalleryMessage Gallery.Msg
-    | HighlightMessage Highlight.Msg
-    | GridMessage Grid.Msg
+    = GalleryMessage Components.Gallery.Msg
+    | HighlightMessage Components.Highlight.Msg
+    | GridMessage Components.Grid.Msg
     | PageMsg PageElements.Msg
     | ScrollToElement String
     | ComponentIntMessage Msg
@@ -23,16 +23,16 @@ type Msg
 -- define which dictionaries to loop through using subscriptions
 keysToUpdate : List (String, Int)
 keysToUpdate =
-    [ ("pics", Gallery.dictSize pics), ("pics2", Gallery.dictSize pics), ("pics3", Gallery.dictSize pics3), ("pats", Gallery.dictSize pats) ]
+    [ ("pics", Components.Gallery.dictSize pics), ("pics2", Components.Gallery.dictSize pics), ("pics3", Components.Gallery.dictSize pics3), ("pats", Components.Gallery.dictSize pats) ]
 
 -- combined update for all incoming components to the interface
-update : Msg -> Model -> (Model, Cmd Msg)
+update : Msg -> Comp -> (Comp, Cmd Msg)
 update msg model = 
     case msg of
         GalleryMessage message ->
-            updateGallery GalleryMessage model ( Gallery.update message model.nums keysToUpdate)
+            updateGallery GalleryMessage model ( Components.Gallery.update message model.nums keysToUpdate)
         HighlightMessage message ->
-            updateHighlight HighlightMessage model ( Highlight.update message model.highl)
+            updateHighlight HighlightMessage model ( Components.Highlight.update message model.highl)
         PageMsg message ->
             updateNavBar PageMsg model ( PageElements.update message model.currPage)
         ScrollToElement message ->
@@ -41,26 +41,26 @@ update msg model =
             (model, Cmd.none)
 
 -- mapping the component update functions to the component update function
-updateGallery : (subMsg -> Msg) -> Model -> ( Gallery.Model, Cmd subMsg ) -> ( Model, Cmd Msg )
+updateGallery : (subMsg -> Msg) -> Comp -> ( Components.Gallery.Model, Cmd subMsg ) -> ( Comp, Cmd Msg )
 updateGallery toMsg model ( subModel, subCmd ) =
     ( {model | nums = subModel}
     , Cmd.map toMsg subCmd
     )
 
-updateHighlight : (subMsg -> Msg) -> Model -> ( Highlight.Model, Cmd subMsg ) -> ( Model, Cmd Msg )
+updateHighlight : (subMsg -> Msg) -> Comp -> ( Components.Highlight.Model, Cmd subMsg ) -> ( Comp, Cmd Msg )
 updateHighlight toMsg model ( subModel, subCmd ) =
     ( {model | highl = subModel}
     , Cmd.map toMsg subCmd
     )
 
-updateNavBar : (subMsg -> Msg) -> Model -> ( Highlight.Model, Cmd subMsg ) -> ( Model, Cmd Msg )
+updateNavBar : (subMsg -> Msg) -> Comp -> ( Components.Highlight.Model, Cmd subMsg ) -> ( Comp, Cmd Msg )
 updateNavBar toMsg model ( subModel, subCmd ) =
     ( {model | currPage = subModel}
     , Cmd.map toMsg subCmd
     )
 
 
-viewOne : Model -> Html Msg 
+viewOne : Comp -> Html Msg 
 viewOne model = 
     div [] [
         div [class "header"] [
@@ -70,7 +70,7 @@ viewOne model =
         , Html.map PageMsg (homeBubbleView model.currPage "Home")
         , Html.map PageMsg (codingBubbleView model.currPage "About")
         , div [visibleClass model.currPage "About" "textcontainer"] [
-            Html.map GalleryMessage (Gallery.view model.nums pats ["left"] ["pic"])
+            Html.map GalleryMessage (Components.Gallery.view model.nums pats ["left"] ["pic"])
         ] 
         -- , div [visibleClass model.currPage "Home" "textcontainer"] [
         --     Html.map GridMessage (Grid.gridView [["monkey.png", "slowmo"], ["donkey.png", "bright"], ["cat.png", "zoomable"]])
@@ -89,7 +89,7 @@ viewOne model =
 --         , a [ onClick (ScrollToElement "top"), class "clickable"] [text "Back To Top"]
 --     ]
 
-subscriptions : Model -> Sub Msg
+subscriptions : Comp -> Sub Msg
 subscriptions model =
     Sub.map GalleryMessage (Time.every 5000 Tick)
 

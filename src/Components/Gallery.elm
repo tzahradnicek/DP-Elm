@@ -1,4 +1,4 @@
-module Gallery exposing (..)
+module Components.Gallery exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)

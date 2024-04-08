@@ -1,4 +1,4 @@
-module Grid exposing (..)
+module Components.Grid exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
@@ -8,7 +8,7 @@ type alias Model =
     { items : List String }
 
 type Msg
-    = NoOp
+    = None
 
 generateGrid : List String -> Html Msg
 generateGrid list = 
@@ -31,8 +31,3 @@ gridView : List (List String) -> Html Msg
 gridView listOfLists =
     div [ class "grid" ] 
        (List.map generateGrid listOfLists)
-
-update : Msg -> Model -> Model
-update msg model =
-    case msg of
-        NoOp -> model

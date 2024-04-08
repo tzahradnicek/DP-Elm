@@ -4901,7 +4901,7 @@ var $elm$core$Platform$Sub$map = _Platform_map;
 var $author$project$ComponentInterface$GalleryMessage = function (a) {
 	return {$: 'GalleryMessage', a: a};
 };
-var $author$project$Gallery$Tick = function (a) {
+var $author$project$Components$Gallery$Tick = function (a) {
 	return {$: 'Tick', a: a};
 };
 var $elm$time$Time$Every = F2(
@@ -5417,13 +5417,13 @@ var $author$project$ComponentInterface$subscriptions = function (model) {
 	return A2(
 		$elm$core$Platform$Sub$map,
 		$author$project$ComponentInterface$GalleryMessage,
-		A2($elm$time$Time$every, 5000, $author$project$Gallery$Tick));
+		A2($elm$time$Time$every, 5000, $author$project$Components$Gallery$Tick));
 };
 var $author$project$Main$componentSubcriptions = function (model) {
 	return A2(
 		$elm$core$Platform$Sub$map,
 		$author$project$Main$ComponentIntMessage,
-		$author$project$ComponentInterface$subscriptions(model));
+		$author$project$ComponentInterface$subscriptions(model.components));
 };
 var $elm$json$Json$Decode$map = _Json_map1;
 var $elm$json$Json$Decode$map2 = _Json_map2;
@@ -5666,7 +5666,9 @@ var $author$project$Constants$nums = $elm$core$Dict$fromList(
 		]));
 var $author$project$Main$initialModel = function (_v0) {
 	return _Utils_Tuple2(
-		{currPage: 'Home', highl: 'two', nums: $author$project$Constants$nums},
+		{
+			components: {currPage: 'Home', highl: 'two', nums: $author$project$Constants$nums}
+		},
 		$elm$core$Platform$Cmd$none);
 };
 var $author$project$ComponentInterface$HighlightMessage = function (a) {
@@ -5695,7 +5697,7 @@ var $elm$core$Dict$sizeHelp = F2(
 var $elm$core$Dict$size = function (dict) {
 	return A2($elm$core$Dict$sizeHelp, 0, dict);
 };
-var $author$project$Gallery$dictSize = function (dict) {
+var $author$project$Components$Gallery$dictSize = function (dict) {
 	return $elm$core$Dict$size(dict) - 2;
 };
 var $author$project$Constants$pats = $elm$core$Dict$fromList(
@@ -5727,23 +5729,23 @@ var $author$project$ComponentInterface$keysToUpdate = _List_fromArray(
 	[
 		_Utils_Tuple2(
 		'pics',
-		$author$project$Gallery$dictSize($author$project$Constants$pics)),
+		$author$project$Components$Gallery$dictSize($author$project$Constants$pics)),
 		_Utils_Tuple2(
 		'pics2',
-		$author$project$Gallery$dictSize($author$project$Constants$pics)),
+		$author$project$Components$Gallery$dictSize($author$project$Constants$pics)),
 		_Utils_Tuple2(
 		'pics3',
-		$author$project$Gallery$dictSize($author$project$Constants$pics3)),
+		$author$project$Components$Gallery$dictSize($author$project$Constants$pics3)),
 		_Utils_Tuple2(
 		'pats',
-		$author$project$Gallery$dictSize($author$project$Constants$pats))
+		$author$project$Components$Gallery$dictSize($author$project$Constants$pats))
 	]);
 var $elm$json$Json$Encode$string = _Json_wrap;
 var $author$project$ComponentInterface$scrollToElement = _Platform_outgoingPort('scrollToElement', $elm$json$Json$Encode$string);
 var $elm$core$Basics$negate = function (n) {
 	return -n;
 };
-var $author$project$Gallery$getModelNum = F2(
+var $author$project$Components$Gallery$getModelNum = F2(
 	function (pics, model) {
 		var _v0 = A2(
 			$elm$core$Dict$get,
@@ -5764,7 +5766,7 @@ var $author$project$Gallery$getModelNum = F2(
 			return -1;
 		}
 	});
-var $author$project$Gallery$getPicKey = function (picdict) {
+var $author$project$Components$Gallery$getPicKey = function (picdict) {
 	var _v0 = A2($elm$core$Dict$get, 0, picdict);
 	if (_v0.$ === 'Just') {
 		var value = _v0.a;
@@ -6156,16 +6158,16 @@ var $elm$core$Dict$update = F3(
 			return A2($elm$core$Dict$remove, targetKey, dictionary);
 		}
 	});
-var $author$project$Gallery$update = F3(
+var $author$project$Components$Gallery$update = F3(
 	function (msg, model, keysToUpdate) {
 		switch (msg.$) {
 			case 'Next':
 				var dict = msg.a;
-				var picKey = $author$project$Gallery$getPicKey(dict);
-				var modelNum = A2($author$project$Gallery$getModelNum, dict, model);
+				var picKey = $author$project$Components$Gallery$getPicKey(dict);
+				var modelNum = A2($author$project$Components$Gallery$getModelNum, dict, model);
 				return (_Utils_cmp(
 					modelNum,
-					$author$project$Gallery$dictSize(dict)) > 0) ? _Utils_Tuple2(
+					$author$project$Components$Gallery$dictSize(dict)) > 0) ? _Utils_Tuple2(
 					A3(
 						$elm$core$Dict$update,
 						picKey,
@@ -6185,8 +6187,8 @@ var $author$project$Gallery$update = F3(
 					$elm$core$Platform$Cmd$none);
 			case 'Prev':
 				var dict = msg.a;
-				var picKey = $author$project$Gallery$getPicKey(dict);
-				var modelNum = A2($author$project$Gallery$getModelNum, dict, model);
+				var picKey = $author$project$Components$Gallery$getPicKey(dict);
+				var modelNum = A2($author$project$Components$Gallery$getModelNum, dict, model);
 				return (modelNum === 1) ? _Utils_Tuple2(
 					A3(
 						$elm$core$Dict$update,
@@ -6234,7 +6236,7 @@ var $author$project$Gallery$update = F3(
 					$elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Highlight$update = F2(
+var $author$project$Components$Highlight$update = F2(
 	function (msg, model) {
 		switch (msg.$) {
 			case 'One':
@@ -6298,14 +6300,14 @@ var $author$project$ComponentInterface$update = F2(
 					$author$project$ComponentInterface$updateGallery,
 					$author$project$ComponentInterface$GalleryMessage,
 					model,
-					A3($author$project$Gallery$update, message, model.nums, $author$project$ComponentInterface$keysToUpdate));
+					A3($author$project$Components$Gallery$update, message, model.nums, $author$project$ComponentInterface$keysToUpdate));
 			case 'HighlightMessage':
 				var message = msg.a;
 				return A3(
 					$author$project$ComponentInterface$updateHighlight,
 					$author$project$ComponentInterface$HighlightMessage,
 					model,
-					A2($author$project$Highlight$update, message, model.highl));
+					A2($author$project$Components$Highlight$update, message, model.highl));
 			case 'PageMsg':
 				var message = msg.a;
 				return A3(
@@ -6322,21 +6324,24 @@ var $author$project$ComponentInterface$update = F2(
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 		}
 	});
-var $author$project$Main$updateInterface = F2(
-	function (toMsg, _v0) {
+var $author$project$Main$updateInterface = F3(
+	function (toMsg, model, _v0) {
 		var subModel = _v0.a;
 		var subCmd = _v0.b;
 		return _Utils_Tuple2(
-			subModel,
+			_Utils_update(
+				model,
+				{components: subModel}),
 			A2($elm$core$Platform$Cmd$map, toMsg, subCmd));
 	});
 var $author$project$Main$update = F2(
 	function (msg, model) {
 		var message = msg.a;
-		return A2(
+		return A3(
 			$author$project$Main$updateInterface,
 			$author$project$Main$ComponentIntMessage,
-			A2($author$project$ComponentInterface$update, message, model));
+			model,
+			A2($author$project$ComponentInterface$update, message, model.components));
 	});
 var $elm$html$Html$div = _VirtualDom_node('div');
 var $elm$html$Html$Attributes$stringProperty = F2(
@@ -6616,10 +6621,10 @@ var $author$project$PageElements$navBarView = function (model) {
 					]))
 			]));
 };
-var $author$project$Gallery$Next = function (a) {
+var $author$project$Components$Gallery$Next = function (a) {
 	return {$: 'Next', a: a};
 };
-var $author$project$Gallery$Prev = function (a) {
+var $author$project$Components$Gallery$Prev = function (a) {
 	return {$: 'Prev', a: a};
 };
 var $elm$html$Html$button = _VirtualDom_node('button');
@@ -6630,7 +6635,7 @@ var $elm$html$Html$Attributes$src = function (url) {
 		'src',
 		_VirtualDom_noJavaScriptOrHtmlUri(url));
 };
-var $author$project$Gallery$view = F4(
+var $author$project$Components$Gallery$view = F4(
 	function (model, picDict, picPosition, picStyle) {
 		return A2(
 			$elm$html$Html$div,
@@ -6687,7 +6692,7 @@ var $author$project$Gallery$view = F4(
 						[
 							$elm$html$Html$Attributes$class('centerLeft leftArrow'),
 							$elm$html$Html$Events$onClick(
-							$author$project$Gallery$Prev(picDict))
+							$author$project$Components$Gallery$Prev(picDict))
 						]),
 					_List_Nil),
 					A2(
@@ -6696,7 +6701,7 @@ var $author$project$Gallery$view = F4(
 						[
 							$elm$html$Html$Attributes$class('centerRight rightArrow'),
 							$elm$html$Html$Events$onClick(
-							$author$project$Gallery$Next(picDict))
+							$author$project$Components$Gallery$Next(picDict))
 						]),
 					_List_Nil)
 				]));
@@ -6747,7 +6752,7 @@ var $author$project$ComponentInterface$viewOne = function (model) {
 						$elm$html$Html$map,
 						$author$project$ComponentInterface$GalleryMessage,
 						A4(
-							$author$project$Gallery$view,
+							$author$project$Components$Gallery$view,
 							model.nums,
 							$author$project$Constants$pats,
 							_List_fromArray(
@@ -6788,7 +6793,7 @@ var $author$project$Main$view = function (model) {
 				A2(
 				$elm$html$Html$map,
 				$author$project$Main$ComponentIntMessage,
-				$author$project$ComponentInterface$viewOne(model))
+				$author$project$ComponentInterface$viewOne(model.components))
 			]));
 };
 var $author$project$Main$main = $elm$browser$Browser$element(

@@ -3,11 +3,15 @@ import Dict exposing (Dict)
 
 type alias Model = 
     {
-        nums: Dict String Int
-        ,highl: String
-        ,currPage: String
+        components: Comp
     }
 
+type alias Comp = 
+    {
+        nums: Dict String Int
+        , highl: String
+        , currPage: String
+    }
 
 nums: Dict String Int
 nums = Dict.fromList

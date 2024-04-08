@@ -1,4 +1,4 @@
-module Highlight exposing (..)
+module Components.Highlight exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
